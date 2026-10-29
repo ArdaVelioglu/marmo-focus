@@ -6,15 +6,18 @@
 
 ---
 
-## ✨ Features (Özellikler)
+## ✨ Features
 
-- **Cozy Pomodoro & Focus Guard:** Odak seanslarının bütünlüğünü koruyan akıllı kilit mekanizmaları (`useFocusGuard`, `useClockLock`).
-- **Marmoset Companion:** Odaklanma durumuna göre uyuyan veya uyanık kalan sevimli marmoset dostunla birlikte çalış.
-- **Modular i18n Support:** İngilizce ve Türkçe dil desteği ile modüler dil altyapısı.
-- **Journey & Stats:** Odaklanma geçmişini, serilerini (streaks) ve gelişimini takip edebileceğin detaylı istatistik paneli.
-- **PWA Ready:** Telefonuna ana ekrandan tam ekran yerleştirip gerçek bir uygulama gibi kullanabilme imkanı.
+- **Cozy Pomodoro & Focus Guard:** Smart lock mechanisms (`useFocusGuard`, `useClockLock`) that protect the integrity of your focus sessions.
+- **Marmoset Companion:** Work alongside your cute marmoset companion that sleeps or stays awake depending on your focus state.
+- **Modular i18n Support:** Modular language infrastructure with English and Turkish language support.
+- **Journey & Stats:** Detailed statistics panel where you can track your focus history, streaks, and progress.
+- **PWA Ready:** Ability to add it to your phone's home screen in full screen and use it like a real native app.
 
 ---
 
-## 📱 Screenshots (Ekran Görüntüleri)
-<img width="2039" height="899" alt="image-1793300914225" src="https://github.com/user-attachments/assets/91950111-f3f4-4593-ae47-a01dc640a4ea" />
+## 📱 Screenshots
+<img width="2039" height="899" alt="hero" src="https://github.com/user-attachments/assets/e36a1738-cc7f-467b-b930-2f0dcd9a2ea6" />
+<img width="780" height="1688" alt="09-japanese" src="https://github.com/user-attachments/assets/8c2eecf7-acb2-42f3-81a1-b1d9f4725005" />
+<img width="780" height="1688" alt="07-shop" src="https://github.com/user-attachments/assets/3e818bde-063d-4e53-9053-e2e37a88e175" />
+<img width="780" height="1688" alt="06-statistics" src="https://github.com/user-attachments/assets/f93f6a67-44b1-4dcb-bd17-44e1b2f5e362" />
