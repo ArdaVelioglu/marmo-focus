@@ -10,7 +10,7 @@
 
 - **Cozy Pomodoro & Focus Guard:** Smart lock mechanisms (`useFocusGuard`, `useClockLock`) that protect the integrity of your focus sessions.
 - **Marmoset Companion:** Work alongside your cute marmoset companion that sleeps or stays awake depending on your focus state.
-- **Modular i18n Support:** Modular language infrastructure with English and Turkish language support.
+- **Modular i18n Support:** Modular language infrastructure with English, Japanese, Spanish and Italian language support.
 - **Journey & Stats:** Detailed statistics panel where you can track your focus history, streaks, and progress.
 - **PWA Ready:** Ability to add it to your phone's home screen in full screen and use it like a real native app.
 
