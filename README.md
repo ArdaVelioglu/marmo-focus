@@ -18,7 +18,6 @@
 - **Ambient sounds:** Rain, forest, fireplace and lo-fi, synthesized live (no audio files).
 - **Fair play:** Rewards ignore device clock changes.
 - **Four languages:** English, 日本語, Español, Italiano.
-- **PWA ready:** Add it to your home screen and use it like a native app.
 
 ---
 
