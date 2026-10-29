@@ -18,7 +18,7 @@
 
 ## 📱 Screenshots
 
-<img width="2039" height="899" alt="hero" src="https://github.com/user-attachments/assets/e36a1738-cc7f-467b-b930-2f0dcd92ea6" />
+<img width="2039" height="899" alt="hero" src="https://github.com/user-attachments/assets/c74fcb88-b8e4-4d24-94cb-6e3d9559335b" />
 
 <p align="center">
   <img width="30%" alt="09-japanese" src="https://github.com/user-attachments/assets/8c2eecf7-acb2-42f3-81a1-b1d9f4725005" />
