@@ -21,7 +21,7 @@
 
 ---
 
-## 📱 Screenshots and Videos
+## 📱 Screenshots
 
 <img width="2039" height="899" alt="hero" src="https://github.com/user-attachments/assets/c74fcb88-b8e4-4d24-94cb-6e3d9559335b" />
 
@@ -30,10 +30,6 @@
   <img width="30%" alt="07-shop" src="https://github.com/user-attachments/assets/3e818bde-063d-4e53-9053-e2e37a88e175" />
   <img width="30%" alt="06-statistics" src="https://github.com/user-attachments/assets/f93f6a67-44b1-4dcb-bd17-44e1b2f5e362" />
 </p>
-<p align="center">
-  <video src="https://github.com/user-attachments/assets/2223143d-4986-415c-b0b7-28217f04850f" width="300" controls autoplay loop muted></video>
-</p>
-
 
 
 
