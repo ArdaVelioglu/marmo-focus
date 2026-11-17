@@ -21,7 +21,22 @@ npm run ios:sync      # web uygulamasını derler ve iOS projesine kopyalar
 npm run ios:open      # Xcode'u açar
 ```
 
-Xcode'da: **App** hedefi → *Signing & Capabilities* → Team'i seç → cihazda dene → *Product → Archive* → *Distribute App → App Store Connect*.
+Xcode'da **üç hedefin her birinde** (App, MarmoMonitor, MarmoShield) → *Signing & Capabilities* → **Automatically manage signing** açık → Team'i seç. Sonra gerçek iPhone'da dene → *Product → Archive* → *Distribute App → App Store Connect*.
+
+### Uygulama engelleme (Screen Time) — 1.8.0'da var
+
+| Parça | Dosya | Görevi |
+|---|---|---|
+| Eklenti (Swift) | `ios/App/App/AppBlockPlugin.swift` | İzin ister, Apple'ın uygulama seçicisini açar, seans boyunca kilitler |
+| Kayıt | `ios/App/App/MainViewController.swift` | Eklentiyi Capacitor'a tanıtır (Main.storyboard bu sınıfı kullanır) |
+| Monitor uzantısı | `ios/App/MarmoMonitor/` (`com.ardavelioglu.marmofocus.monitor`) | Seans bitince kilidi açar; uygulama kapalı olsa da çalışır |
+| Shield uzantısı | `ios/App/MarmoShield/` (`com.ardavelioglu.marmofocus.shield`) | Engelli uygulamada "{pet} uyuyor 💤" ekranı |
+| İzinler | `*.entitlements` | `com.apple.developer.family-controls` + App Group `group.com.ardavelioglu.marmofocus` |
+| JS köprüsü | `src/lib/appBlock.js`, Ayarlar → *App Blocking* | Web'de gizli; iOS 16+ |
+
+- Apple Developer'da: Family Controls (Distribution) izni ✔ onaylandı; üç App ID'de *Family Controls (Distribution)* + *App Groups* açık olmalı.
+- **Simülatörde çalışmaz**, gerçek iPhone'da test et: Ayarlar → Block Distracting Apps → izin ver → uygulama seç → 15 dk seans başlat → seçili uygulamayı açmayı dene → seansı bitir/vazgeç → kilit kalkmalı.
+- Uygulamanın en düşük iOS sürümü artık **16.0**.
 
 Projede hazır olanlar: yalnızca iPhone, yalnızca dikey ekran, uygulama ikonu, açılış ekranı, `ITSAppUsesNonExemptEncryption = NO` (şifreleme beyanı), sürüm 1.8.0. Eklentiler Swift Package Manager ile gelir (CocoaPods gerekmez): bildirimler, kalıcı kayıt, titreşim.
 
@@ -31,7 +46,7 @@ Projede hazır olanlar: yalnızca iPhone, yalnızca dikey ekran, uygulama ikonu,
 |---|---|
 | **Privacy Policy URL** | `https://github.com/ArdaVelioglu/marmo-focus/blob/main/marmo-focus-src/legal/PRIVACY.md` (ya da GitHub Pages ile `public/legal/privacy.html`) |
 | **Support URL** | `https://github.com/ArdaVelioglu/marmo-focus` (ya da kendi destek sayfan) |
-| **App Privacy (gizlilik etiketi)** | **"Data Not Collected"** — uygulama hiçbir veri toplamıyor, sunucusu yok, analiz/reklam/izleme SDK'sı yok. |
+| **App Privacy (gizlilik etiketi)** | **"Data Not Collected"** — uygulama hiçbir veri toplamıyor, sunucusu yok, analiz/reklam/izleme SDK'sı yok. Engelleme seçimi Apple'ın anonim jetonlarıyla cihazda kalır. |
 | **Age Rating** | Tüm sorulara "None" → **4+** |
 | **Category** | Productivity (ikincil: Lifestyle) |
 | **Price** | Free · In-App Purchase yok |
@@ -41,7 +56,9 @@ Projede hazır olanlar: yalnızca iPhone, yalnızca dikey ekran, uygulama ikonu,
 
 **App Review Notes (önerilen metin):**
 
-> Marmo Focus works fully offline and needs no account: tap "Start as Guest" to begin. "Create a Profile" only stores a display name on the device. To see a session finish quickly, choose 15 minutes and wait, or put the app in the background and come back (Focus Guard will mark the session as "woken up"). The app collects no data; there is no server, analytics or advertising.
+> Marmo Focus works fully offline and needs no account: tap "Start as Guest" to begin. "Create a Profile" only stores a display name on the device. The shortest focus session is 15 minutes; when it ends, the marmoset wakes up and the session is rewarded. If you leave the app during a session, a short grace period applies and a notification asks you to return.
+>
+> App blocking (Family Controls): when you tap "Start focusing" the first time, the app offers "Block distracting apps?" (it is also the "Block apps" switch on the Focus screen and Settings → App Blocking). Tap "Choose Apps", allow Screen Time access and pick apps in Apple's picker. While a focus session runs, those apps show a shield ("Mango is sleeping"); they unlock automatically when the session ends or is given up (a DeviceActivity monitor extension lifts the shield even if the app is closed). Authorization is individual (device owner only). The selection stays on the device as opaque tokens. The app collects no data: there is no server, analytics or advertising.
 
 **Ekran görüntüleri:** 6.9" (1320×2868 veya 1290×2796) iPhone boyutu yeterli; `docs/screenshots/` ve tanıtım videosu (App Preview, 886×1920) hazır.
 

@@ -7,18 +7,60 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2143632FF7B7A6B12BDC08A8 /* AppBlockPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0121D0CD15A1F63C334B8AB1 /* AppBlockPlugin.swift */; };
 		2FAD9763203C412B000D30F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
+		413973028E4D87F4279E0F5A /* MarmoShield.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6F9819C59FE7BECB1FB8B581 /* MarmoShield.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4D22ABE92AF431CB00220026 /* CapApp-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D22ABE82AF431CB00220026 /* CapApp-SPM */; };
+		4F5AD92AC46E05A5615F44B6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723B87F21D95F4E38F8392A1 /* MainViewController.swift */; };
 		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		504EC3081FED79650016851F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
 		504EC30D1FED79650016851F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30B1FED79650016851F /* Main.storyboard */; };
 		504EC30F1FED79650016851F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
 		504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
+		7D31519896F595CAB13F2E3B /* MarmoMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3688B57FA7F30EDBE0DDFAA0 /* MarmoMonitor.swift */; };
+		9A3651D728C8F7350B505A86 /* MarmoMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D809500B2F9373CC93168E92 /* MarmoMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DB92E3E2F422535347B04933 /* ShieldConfigurationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73D5770B217C4456FA5ECF8 /* ShieldConfigurationExtension.swift */; };
+		FFE76F1C37F138FCBD54D0E1 /* ShieldIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 485B43CB28AC4C64F4D07B14 /* ShieldIcon.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8251DED13757F7957E02E0BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 24714C29F00395AAE39584CB;
+			remoteInfo = MarmoMonitor;
+		};
+		E89A27E4DCE5810B73592EE9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 75EFC73433D76C8EB1A58612;
+			remoteInfo = MarmoShield;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E12ABCEAA23465DA91C73DC8 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9A3651D728C8F7350B505A86 /* MarmoMonitor.appex in Embed Foundation Extensions */,
+				413973028E4D87F4279E0F5A /* MarmoShield.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0121D0CD15A1F63C334B8AB1 /* AppBlockPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppBlockPlugin.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		3688B57FA7F30EDBE0DDFAA0 /* MarmoMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarmoMonitor.swift; sourceTree = "<group>"; };
+		485B43CB28AC4C64F4D07B14 /* ShieldIcon.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = ShieldIcon.png; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EC3071FED79650016851F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -27,10 +69,33 @@
 		504EC3111FED79650016851F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		504EC3131FED79650016851F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50B271D01FEDC1A000F3C39B /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
+		5870643B4F948B05F5D99C20 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F9819C59FE7BECB1FB8B581 /* MarmoShield.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MarmoShield.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		723B87F21D95F4E38F8392A1 /* MainViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		917B20245CA56637E28172F5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
+		AD9F7F96DED58AB0B3AB3DF1 /* MarmoMonitor.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = MarmoMonitor.entitlements; sourceTree = "<group>"; };
+		D809500B2F9373CC93168E92 /* MarmoMonitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MarmoMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		DBAB7C5D9FDC3D39B0C2FC56 /* MarmoShield.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = MarmoShield.entitlements; sourceTree = "<group>"; };
+		E8D665D75B405E1EE069B774 /* App.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		F73D5770B217C4456FA5ECF8 /* ShieldConfigurationExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShieldConfigurationExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		20C60E2B8A69443B831BFF98 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3DC5312481F88D7D82912077 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		504EC3011FED79650016851F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -42,12 +107,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00CABBDE12F10ABF4791A2A5 /* MarmoMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				3688B57FA7F30EDBE0DDFAA0 /* MarmoMonitor.swift */,
+				917B20245CA56637E28172F5 /* Info.plist */,
+				AD9F7F96DED58AB0B3AB3DF1 /* MarmoMonitor.entitlements */,
+			);
+			name = MarmoMonitor;
+			path = MarmoMonitor;
+			sourceTree = "<group>";
+		};
+		207530F1108696A46CA74E3B /* MarmoShield */ = {
+			isa = PBXGroup;
+			children = (
+				F73D5770B217C4456FA5ECF8 /* ShieldConfigurationExtension.swift */,
+				485B43CB28AC4C64F4D07B14 /* ShieldIcon.png */,
+				5870643B4F948B05F5D99C20 /* Info.plist */,
+				DBAB7C5D9FDC3D39B0C2FC56 /* MarmoShield.entitlements */,
+			);
+			name = MarmoShield;
+			path = MarmoShield;
+			sourceTree = "<group>";
+		};
 		504EC2FB1FED79650016851F = {
 			isa = PBXGroup;
 			children = (
 				958DCC722DB07C7200EA8C5F /* debug.xcconfig */,
 				504EC3061FED79650016851F /* App */,
 				504EC3051FED79650016851F /* Products */,
+				00CABBDE12F10ABF4791A2A5 /* MarmoMonitor */,
+				207530F1108696A46CA74E3B /* MarmoShield */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,6 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				504EC3041FED79650016851F /* App.app */,
+				D809500B2F9373CC93168E92 /* MarmoMonitor.appex */,
+				6F9819C59FE7BECB1FB8B581 /* MarmoShield.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +162,9 @@
 				504EC3131FED79650016851F /* Info.plist */,
 				2FAD9762203C412B000D30F8 /* config.xml */,
 				50B271D01FEDC1A000F3C39B /* public */,
+				0121D0CD15A1F63C334B8AB1 /* AppBlockPlugin.swift */,
+				723B87F21D95F4E38F8392A1 /* MainViewController.swift */,
+				E8D665D75B405E1EE069B774 /* App.entitlements */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -77,6 +172,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		24714C29F00395AAE39584CB /* MarmoMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A38D0F947E043082A12CE25D /* Build configuration list for PBXNativeTarget "MarmoMonitor" */;
+			buildPhases = (
+				1B95E956922DF7CB77215E8B /* Sources */,
+				20C60E2B8A69443B831BFF98 /* Frameworks */,
+				2F4B1C517D94A26AC45772FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MarmoMonitor;
+			productName = MarmoMonitor;
+			productReference = D809500B2F9373CC93168E92 /* MarmoMonitor.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		504EC3031FED79650016851F /* App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 504EC3161FED79650016851F /* Build configuration list for PBXNativeTarget "App" */;
@@ -84,10 +196,13 @@
 				504EC3001FED79650016851F /* Sources */,
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
+				E12ABCEAA23465DA91C73DC8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				339FDA97CD9211E5F434E728 /* PBXTargetDependency */,
+				9568E229953FE64916756193 /* PBXTargetDependency */,
 			);
 			name = App;
 			packageProductDependencies = (
@@ -96,6 +211,23 @@
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		75EFC73433D76C8EB1A58612 /* MarmoShield */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 232C3408E2101218508C6B56 /* Build configuration list for PBXNativeTarget "MarmoShield" */;
+			buildPhases = (
+				BF7F3B45A9F37CEDD327F325 /* Sources */,
+				3DC5312481F88D7D82912077 /* Frameworks */,
+				76585635C95C430AB80C5EA3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MarmoShield;
+			productName = MarmoShield;
+			productReference = 6F9819C59FE7BECB1FB8B581 /* MarmoShield.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -130,11 +262,20 @@
 			projectRoot = "";
 			targets = (
 				504EC3031FED79650016851F /* App */,
+				24714C29F00395AAE39584CB /* MarmoMonitor */,
+				75EFC73433D76C8EB1A58612 /* MarmoShield */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2F4B1C517D94A26AC45772FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		504EC3021FED79650016851F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -148,18 +289,59 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		76585635C95C430AB80C5EA3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFE76F1C37F138FCBD54D0E1 /* ShieldIcon.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1B95E956922DF7CB77215E8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D31519896F595CAB13F2E3B /* MarmoMonitor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		504EC3001FED79650016851F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
+				2143632FF7B7A6B12BDC08A8 /* AppBlockPlugin.swift in Sources */,
+				4F5AD92AC46E05A5615F44B6 /* MainViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF7F3B45A9F37CEDD327F325 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB92E3E2F422535347B04933 /* ShieldConfigurationExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		339FDA97CD9211E5F434E728 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MarmoMonitor;
+			target = 24714C29F00395AAE39584CB /* MarmoMonitor */;
+			targetProxy = 8251DED13757F7957E02E0BC /* PBXContainerItemProxy */;
+		};
+		9568E229953FE64916756193 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MarmoShield;
+			target = 75EFC73433D76C8EB1A58612 /* MarmoShield */;
+			targetProxy = E89A27E4DCE5810B73592EE9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		504EC30B1FED79650016851F /* Main.storyboard */ = {
@@ -230,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -281,7 +463,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -295,10 +477,11 @@
 			baseConfigurationReference = 958DCC722DB07C7200EA8C5F /* debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -317,10 +500,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -334,9 +518,136 @@
 			};
 			name = Release;
 		};
+		595B062275699D865D882AA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = MarmoShield/MarmoShield.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarmoShield/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MarmoShield;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ardavelioglu.marmofocus.shield;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		896ECB9950925C093D2C8633 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = MarmoShield/MarmoShield.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarmoShield/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MarmoShield;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ardavelioglu.marmofocus.shield;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9C4B974E9E68436D71E92744 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = MarmoMonitor/MarmoMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarmoMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MarmoMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ardavelioglu.marmofocus.monitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AFE5747F0A136BD840084447 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = MarmoMonitor/MarmoMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarmoMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MarmoMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ardavelioglu.marmofocus.monitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		232C3408E2101218508C6B56 /* Build configuration list for PBXNativeTarget "MarmoShield" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				595B062275699D865D882AA5 /* Release */,
+				896ECB9950925C093D2C8633 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		504EC2FF1FED79650016851F /* Build configuration list for PBXProject "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -351,6 +662,15 @@
 			buildConfigurations = (
 				504EC3171FED79650016851F /* Debug */,
 				504EC3181FED79650016851F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A38D0F947E043082A12CE25D /* Build configuration list for PBXNativeTarget "MarmoMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C4B974E9E68436D71E92744 /* Release */,
+				AFE5747F0A136BD840084447 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

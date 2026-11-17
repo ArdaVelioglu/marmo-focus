@@ -1,16 +1,17 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { Clock3, CloudRain, CloudSnow, Coffee, Crosshair, Flame, Headphones, Moon, NotebookPen, Pause, Pencil, Play, SkipForward, Sun, Sunrise, Sunset, Wrench, X } from 'lucide-react';
+import { Lock, LockOpen, Clock3, CloudRain, CloudSnow, Coffee, Crosshair, Flame, Headphones, Moon, NotebookPen, Pause, Pencil, Play, SkipForward, Sun, Sunrise, Sunset, Wrench, X } from 'lucide-react';
 import { useStore, useDerived, placedIn } from '../../state/store';
 import { fmt, fmtHours, haptic, unlockAudio } from '../../lib/feedback';
 import { MAX_MINUTES, MAX_MULT, MIN_MINUTES, PRESETS, STEP_MINUTES, coinsFor, fmtMultiplier, presetLabel, presetShort, streakAfterFocus, streakMult, totalMultiplier } from '../../lib/economy';
 import Room from '../Room';
-import { BananaCoin, Button, CoinPill, ConfirmSheet } from '../ui';
+import { BananaCoin, Button, CoinPill, ConfirmSheet, Sheet } from '../ui';
+import { useAppBlock } from '../../hooks/useAppBlock';
 import PetNameSheet from '../PetNameSheet';
 import TasksCard from '../TasksCard';
 import AmbienceSheet, { SoundBars, usePlaying } from '../AmbienceSheet';
 import { StreakChip, StreakSheet } from '../Streak';
 import { useClockLock } from '../../hooks/useClockLock';
-import { locale, num, t } from '../../i18n';
+import { locale, num, t, tp } from '../../i18n';
 import { DEV_TOOLS } from '../../lib/devtools';
 import { PHASE_LABEL, WEATHER_LABEL, resolveAtmosphere } from '../../lib/atmosphere';
 
@@ -147,10 +148,24 @@ function SessionCard() {
   const days = streakAfterFocus(state.streak);
   const n = todaySessions + 1;
 
+  const block = useAppBlock();
+  const [askBlock, setAskBlock] = useState(false);
+  const begin = () => dispatch({ type: 'timer/start' });
   const start = () => {
     if (state.settings.sound) unlockAudio();
     if (state.settings.haptics) haptic(8);
-    dispatch({ type: 'timer/start' });
+    // First session on iPhone: offer app blocking once, then remember the answer.
+    if (block.supported && !block.on && !state.blockAsked) {
+      dispatch({ type: 'blockAsked' });
+      setAskBlock(true);
+      return;
+    }
+    begin();
+  };
+  const answerBlock = async (yes) => {
+    setAskBlock(false);
+    if (yes) await block.enable();
+    begin();
   };
 
   return (
@@ -198,7 +213,25 @@ function SessionCard() {
       )}
 
       <CurrentTask />
+      {block.supported && (
+        <button onClick={() => (block.on ? block.disable() : block.enable())} aria-pressed={block.on}
+          className={`pressable mt-3 w-full h-11 px-4 rounded-full flex items-center gap-2 t-subhead font-semibold ${block.on ? 'chip-soft' : 'bg-bg3 text-label2'}`}>
+          {block.on ? <Lock size={16} strokeWidth={2.4} className="text-tint" /> : <LockOpen size={16} strokeWidth={2.4} />}
+          <span className="flex-1 text-left">{t('Block apps')}</span>
+          <span className="t-footnote tabular">{block.on ? tp(block.count, '{n} selected', '{n} selected') : t('Off')}</span>
+        </button>
+      )}
       <Button className="w-full mt-4 !rounded-full" onClick={start}><Play size={18} fill="currentColor" strokeWidth={0} />{t('Start focusing')}</Button>
+      <Sheet open={askBlock} onClose={() => answerBlock(false)} title={t('Block apps')} detent="small">
+        <div className="px-5 pb-2 text-center">
+          <span className="mx-auto grid place-items-center w-14 h-14 rounded-full chip-soft"><Lock size={26} className="text-tint" /></span>
+          <p className="t-title2 mt-3">{t('Block distracting apps?')}</p>
+          <p className="t-subhead text-label2 mt-1.5">{t('Lock social media, games or anything else while {pet} sleeps. They unlock on their own when the session ends.', { pet: state.petName })}</p>
+          <Button className="w-full mt-5 !rounded-full" onClick={() => answerBlock(true)}><Lock size={17} />{t('Choose Apps')}</Button>
+          <button className="pressable w-full h-12 mt-1.5 t-headline text-tint" onClick={() => answerBlock(false)}>{t('Not Now')}</button>
+          <p className="t-footnote text-label3 mt-1">{t('You can change this any time on this screen or in Settings.')}</p>
+        </div>
+      </Sheet>
     </section>
   );
 }

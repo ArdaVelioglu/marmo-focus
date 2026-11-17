@@ -1,6 +1,6 @@
 # Privacy Policy
 
-*Marmo Focus · Arda Velioğlu · Effective November 11, 2026*
+*Marmo Focus · Arda Velioğlu · Effective November 17, 2026*
 
 Marmo Focus is a focus timer that works entirely on your device. This policy explains what information the app handles and where it stays. In short: we do not collect, receive, sell or share any personal data.
 
@@ -23,6 +23,12 @@ This information never leaves your device through the app. If you use your devic
 ## Notifications
 
 If you turn on notifications, the app schedules reminders (for example "session complete") locally on your device. They are not sent through any server and you can turn them off at any time in Settings or in your device settings.
+
+## App blocking (Screen Time)
+
+On iPhone you can choose apps, categories and websites to lock during focus sessions. This uses Apple's Screen Time API (Family Controls) and is off unless you turn it on. You make the choice in Apple's own picker, and Apple gives the app only anonymous tokens, so we cannot see which apps or websites you chose or how you use them.
+
+Your selection is stored only on your device, in storage shared with the app's own extensions that lock and unlock the apps. It is never sent anywhere. You can change it or turn the feature off in Settings, or remove the app's access in your iPhone's Screen Time settings.
 
 ## Network access
 

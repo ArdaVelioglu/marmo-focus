@@ -207,5 +207,6 @@ Wrap UI text in `t('English text', { vars })` (or `tp(n, one, other)` for plural
 | **Friends tab off in release builds** (it runs on sample data until a backend exists). | `lib/features.js` |
 | **Crash safety.** Saved data is type-checked on load; an error screen offers reload, export and reset. | `state/store.jsx`, `components/ErrorBoundary.jsx` |
 | **iOS app (Capacitor 7, Swift Package Manager).** Native notifications, storage and haptics; iPhone-only, portrait. | `capacitor.config.json`, `ios/`, `lib/notifications.js`, `lib/storage.js`, `lib/feedback.js` |
+| **App blocking (iOS 16+).** A "Block apps" switch on the Focus screen (offered once before the first session) and Settings → App Blocking: pick apps in Apple's Screen Time picker; they are shielded ("Mango is sleeping 💤") during focus sessions and unlock on their own when the session ends. Uses Family Controls with two app extensions; the selection stays on the device as opaque tokens. | `lib/appBlock.js`, `ios/App/App/AppBlockPlugin.swift`, `ios/App/MarmoMonitor/`, `ios/App/MarmoShield/` |
 
 Release steps, App Store Connect answers and the security/legal review: [`APP_STORE_CHECKLIST.md`](APP_STORE_CHECKLIST.md).

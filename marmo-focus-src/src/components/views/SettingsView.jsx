@@ -1,4 +1,4 @@
-import { BellRing, ShieldCheck, Bell, Clock, Coffee, Headphones, Moon, PawPrint, UserRound, Volume2, Vibrate, Wrench, Hourglass, LogOut, Lock, FileText, Heart, Mail, Download } from 'lucide-react';
+import { Ban, LayoutGrid, BellRing, ShieldCheck, Bell, Clock, Coffee, Headphones, Moon, PawPrint, UserRound, Volume2, Vibrate, Wrench, Hourglass, LogOut, Lock, FileText, Heart, Mail, Download } from 'lucide-react';
 import { useStore } from '../../state/store';
 import { useState } from 'react';
 import { ConfirmSheet, LargeTitle, Row, Section, Segmented, Switch } from '../ui';
@@ -6,7 +6,8 @@ import PetNameSheet from '../PetNameSheet';
 import AmbienceSheet from '../AmbienceSheet';
 import { TIMES, WEATHERS } from '../../lib/atmosphere';
 import { notificationsSupported, requestPermission } from '../../lib/notifications';
-import { LANGUAGES, t } from '../../i18n';
+import { LANGUAGES, t, tp } from '../../i18n';
+import { useAppBlock } from '../../hooks/useAppBlock';
 import { DEV_TOOLS } from '../../lib/devtools';
 import { Check } from 'lucide-react';
 import LegalSheet from '../LegalSheet';
@@ -28,6 +29,16 @@ export default function SettingsView({ onOpenDev, onEditProfile, notify }) {
     const r = await exportData(state);
     if (r === 'downloaded') notify?.({ text: t('Data exported'), icon: <Download size={16} className="text-tint" /> });
   };
+  // App blocking (iOS only). The selection lives in iOS; we only know how many items were chosen.
+  const block = useAppBlock();
+  const canBlock = block.supported;
+  const sessionLive = state.timer.mode === 'focus' && state.timer.status === 'running';
+  const lockedNow = () => notify?.({ text: t('You can change this after your session.'), icon: <Ban size={16} className="text-danger" /> });
+  const toggleBlock = (on) => (sessionLive ? lockedNow() : on ? block.enable() : block.disable());
+  const blockFooter = block.authorization === 'denied'
+    ? t('Screen Time access is off. Allow it for Marmo Focus in iPhone Settings › Screen Time, then try again.')
+    : t('During a focus session, the apps you choose are locked. They unlock on their own when the session ends. Marmo Focus never sees which apps you pick.');
+
   const toggleNotify = async (on) => {
     if (!on) return set({ notify: false });
     const ok = await requestPermission();
@@ -59,6 +70,14 @@ export default function SettingsView({ onOpenDev, onEditProfile, notify }) {
         <Row icon={ShieldCheck} iconBg="#5a9b7b" title={t('Focus Guard')} right={<Switch label={t('Focus Guard')} checked={s.focusGuard} onChange={(v) => set({ focusGuard: v })} />} last={!notificationsSupported()} />
         {notificationsSupported() && <Row icon={BellRing} iconBg="#ff9500" title={t('Notify When Done')} right={<Switch label={t('Notify When Done')} checked={s.notify} onChange={toggleNotify} />} last />}
       </Section>
+
+      {canBlock && (
+        <Section header={t('App Blocking')} footer={blockFooter}>
+          <Row icon={Ban} iconBg="#ff3b30" title={t('Block Distracting Apps')} right={<Switch label={t('Block Distracting Apps')} checked={s.blockApps} onChange={toggleBlock} />} last={!s.blockApps} />
+          {s.blockApps && <Row icon={LayoutGrid} iconBg="#5856d6" title={t('Choose Apps')} detail={tp(block.count, '{n} selected', '{n} selected')}
+            onClick={() => (sessionLive ? lockedNow() : block.choose())} chevron last />}
+        </Section>
+      )}
 
       <Section header={t('Breaks')} footer={!s.breaks ? t('Turn on to get a break suggestion after each focus session.') : s.breakAuto ? t('Break length follows the session: one fifth of it, between 5 and 30 minutes.') : t('Pick session length on the Focus tab.')}>
         <Row icon={Coffee} iconBg="#34c759" title={t('Breaks After Focus')} right={<Switch label={t('Breaks After Focus')} checked={s.breaks} onChange={(v) => set({ breaks: v })} />} last={!s.breaks} />

@@ -12,10 +12,11 @@ import FriendsView from './components/views/FriendsView';
 import { evaluate } from './data/achievements';
 import { Flame, Snowflake, Trophy } from 'lucide-react';
 import { dayNumber } from './lib/economy';
-import { startClock } from './lib/clock';
+import { startClock, now as clockNow } from './lib/clock';
 import { resolveLanguage, setLanguage, t, tp } from './i18n';
 import { useFocusGuard } from './hooks/useFocusGuard';
 import { cancelEnd, scheduleEnd } from './lib/notifications';
+import { startBlocking, stopBlocking } from './lib/appBlock';
 import { coinsFor, streakAfterFocus, streakMult } from './lib/economy';
 import { Clock3 } from 'lucide-react';
 import { DailyBonus } from './components/Streak';
@@ -54,6 +55,20 @@ function Shell() {
     if (tm.mode === 'focus') scheduleEnd(tm.endsAt, t('{pet} is awake!', { pet: state.petName }), t('Session complete · +{n} Banana Coins', { n: pay }));
     else scheduleEnd(tm.endsAt, t('Break’s over'), t('{pet} is ready for the next session.', { pet: state.petName }));
   }, [tm.status, tm.endsAt, tm.mode, tm.minutes, tm.disturbed, state.settings.notify, state.petName, state.streak, lang]);
+
+  // App blocking: the chosen apps stay locked while a focus session runs. The shield also lifts
+  // on its own at the end time (DeviceActivity), so a closed app never leaves them locked.
+  const blocking = state.settings.blockApps && tm.mode === 'focus' && tm.status === 'running';
+  useEffect(() => {
+    if (!blocking) { stopBlocking(); return; }
+    const end = new Date(Date.now() + (tm.endsAt - clockNow()));
+    const time = end.toLocaleTimeString(lang, { hour: 'numeric', minute: '2-digit' });
+    startBlocking(tm.endsAt, {
+      title: t('{pet} is sleeping 💤', { pet: state.petName }),
+      subtitle: t('This app is locked until your focus session ends at {time}.', { time }),
+      button: t('Close'),
+    });
+  }, [blocking, tm.endsAt, state.petName, lang]);
 
   useEffect(() => { if (!toast) return; const id = setTimeout(() => setToast(null), 2900); return () => clearTimeout(id); }, [toast]);
 

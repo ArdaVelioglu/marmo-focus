@@ -26,6 +26,7 @@ export const DEFAULT_SETTINGS = {
   autoBreaks: false,    // start the break automatically
   focusGuard: true,     // leaving the app during focus wakes the marmoset and drops the bonus
   notify: false,        // local notification when a session ends (asks permission when turned on)
+  blockApps: false,     // iOS: lock the apps chosen in Settings during focus sessions (Screen Time API)
   theme: 'light', sound: true, haptics: true,   // new installs start in light mode
   lang: 'auto',          // 'auto' | 'en' | 'ja' | 'es' | 'it'
 };
@@ -33,6 +34,7 @@ export const DEFAULT_SETTINGS = {
 const idleTimer = (minutes) => ({ mode: 'focus', status: 'idle', minutes, endsAt: 0, remaining: minutes * 60000 });
 
 const initial = {
+  blockAsked: false,             // iOS: the one-time "block distracting apps?" prompt was shown
   profile: null,                 // null → onboarding. { mode: 'guest' | 'local', name }
   petName: DEFAULT_PET_NAME,
   coins: 0,
@@ -258,6 +260,7 @@ function reducer(state, a) {
     case 'atmosphere': return { ...state, atmosphere: { ...state.atmosphere, ...a.patch } };
 
     // ---- settings ----
+    case 'blockAsked': return { ...state, blockAsked: true };
     case 'settings': return { ...state, settings: { ...state.settings, ...a.patch } };
 
     // ---- developer ----

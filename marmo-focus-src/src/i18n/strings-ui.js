@@ -370,4 +370,23 @@ export const UI = [
   ["Try reloading. If it keeps happening, save a copy of your data and reset the app.", "再読み込みしてください。繰り返し起きる場合は、データのコピーを保存してからアプリをリセットしてください。", "Prueba a recargar. Si vuelve a pasar, guarda una copia de tus datos y restablece la app.", "Prova a ricaricare. Se succede ancora, salva una copia dei tuoi dati e reimposta l’app."],
   ["Reload", "再読み込み", "Recargar", "Ricarica"],
   ["Reset App", "アプリをリセット", "Restablecer la app", "Reimposta l’app"],
+
+  // app blocking (iOS)
+  ["App Blocking", "アプリのブロック", "Bloqueo de apps", "Blocco delle app"],
+  ["Block Distracting Apps", "気が散るアプリをブロック", "Bloquear apps que distraen", "Blocca le app che distraggono"],
+  ["Choose Apps", "アプリを選ぶ", "Elegir apps", "Scegli le app"],
+  ["{n} selected", "{n}件選択中", "{n} seleccionadas", "{n} selezionate"],
+  ["Block During Focus", "集中中にブロック", "Bloquear al concentrarte", "Blocca durante la concentrazione"],
+  ["Done", "完了", "Listo", "Fine"],
+  ["During a focus session, the apps you choose are locked. They unlock on their own when the session ends. Marmo Focus never sees which apps you pick.", "集中セッション中は、選んだアプリがロックされます。セッションが終わると自動で解除されます。どのアプリを選んだかは Marmo Focus には分かりません。", "Durante una sesión de concentración, las apps que elijas se bloquean. Se desbloquean solas cuando termina la sesión. Marmo Focus nunca ve qué apps eliges.", "Durante una sessione di concentrazione, le app che scegli vengono bloccate. Si sbloccano da sole quando la sessione finisce. Marmo Focus non vede mai quali app scegli."],
+  ["Screen Time access is off. Allow it for Marmo Focus in iPhone Settings › Screen Time, then try again.", "スクリーンタイムへのアクセスがオフです。iPhoneの設定 › スクリーンタイムで Marmo Focus を許可してから、もう一度お試しください。", "El acceso a Tiempo de uso está desactivado. Permítelo para Marmo Focus en Ajustes del iPhone › Tiempo de uso y vuelve a intentarlo.", "L’accesso a Tempo di utilizzo è disattivato. Consentilo a Marmo Focus in Impostazioni di iPhone › Tempo di utilizzo, poi riprova."],
+  ["You can change this after your session.", "セッションが終わったら変更できます。", "Podrás cambiarlo después de tu sesión.", "Potrai cambiarlo dopo la sessione."],
+  ["{pet} is sleeping 💤", "{pet}はおやすみ中 💤", "{pet} está durmiendo 💤", "{pet} sta dormendo 💤"],
+  ["This app is locked until your focus session ends at {time}.", "このアプリは集中セッションが終わる {time} までロックされています。", "Esta app está bloqueada hasta que termine tu sesión de concentración a las {time}.", "Questa app è bloccata fino alla fine della sessione di concentrazione alle {time}."],
+  ["Block apps", "アプリをブロック", "Bloquear apps", "Blocca app"],
+  ["Off", "オフ", "Desactivado", "Disattivato"],
+  ["Block distracting apps?", "気が散るアプリをブロックしますか?", "¿Bloquear las apps que distraen?", "Bloccare le app che distraggono?"],
+  ["Lock social media, games or anything else while {pet} sleeps. They unlock on their own when the session ends.", "{pet}が眠っている間、SNSやゲームなどをロックします。セッションが終わると自動で解除されます。", "Bloquea redes sociales, juegos o lo que quieras mientras {pet} duerme. Se desbloquean solas cuando termina la sesión.", "Blocca social, giochi o qualsiasi altra cosa mentre {pet} dorme. Si sbloccano da sole quando la sessione finisce."],
+  ["Not Now", "今はしない", "Ahora no", "Non ora"],
+  ["You can change this any time on this screen or in Settings.", "この画面や設定からいつでも変更できます。", "Puedes cambiarlo cuando quieras en esta pantalla o en Ajustes.", "Puoi cambiarlo quando vuoi da questa schermata o nelle Impostazioni."],
 ];

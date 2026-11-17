@@ -1,6 +1,6 @@
 # Terms of Use
 
-*Marmo Focus · Arda Velioğlu · Effective November 11, 2026*
+*Marmo Focus · Arda Velioğlu · Effective November 17, 2026*
 
 These terms apply when you use Marmo Focus. By using the app you agree to them.
 
