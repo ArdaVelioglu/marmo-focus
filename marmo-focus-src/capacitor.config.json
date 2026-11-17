@@ -1,0 +1,15 @@
+{
+  "appId": "com.ardavelioglu.marmofocus",
+  "appName": "Marmo Focus",
+  "webDir": "dist",
+  "backgroundColor": "#fbf6ec",
+  "ios": {
+    "contentInset": "never",
+    "scheme": "Marmo Focus"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "iconColor": "#ff9b5e"
+    }
+  }
+}

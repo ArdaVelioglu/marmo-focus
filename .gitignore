@@ -1,0 +1,39 @@
+# Applies to the whole repository, including marmo-focus-src/
+# dependencies & builds
+node_modules
+dist
+*.local
+
+# secrets — never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.p8
+*.mobileprovision
+*.keystore
+*.jks
+GoogleService-Info.plist
+google-services.json
+
+# Capacitor / native builds
+ios/App/Pods/
+ios/App/App/public/
+ios/DerivedData/
+android/.gradle/
+android/app/build/
+android/build/
+android/app/src/main/assets/public/
+*.xcuserstate
+xcuserdata/
+
+# logs & OS / editor files
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
