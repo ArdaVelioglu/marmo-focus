@@ -1,4 +1,4 @@
-import { Ban, LayoutGrid, BellRing, ShieldCheck, Bell, Clock, Coffee, Headphones, Moon, PawPrint, UserRound, Volume2, Vibrate, Wrench, Hourglass, LogOut, Lock, FileText, Heart, Mail, Download } from 'lucide-react';
+import { Ban, LayoutGrid, BellRing, ShieldCheck, Bell, Clock, Coffee, Headphones, Moon, PawPrint, UserRound, Volume2, Vibrate, Hourglass, LogOut, Lock, FileText, Heart, Mail, Download } from 'lucide-react';
 import { useStore } from '../../state/store';
 import { useState } from 'react';
 import { ConfirmSheet, LargeTitle, Row, Section, Segmented, Switch } from '../ui';
@@ -8,13 +8,12 @@ import { TIMES, WEATHERS } from '../../lib/atmosphere';
 import { notificationsSupported, requestPermission } from '../../lib/notifications';
 import { LANGUAGES, t, tp } from '../../i18n';
 import { useAppBlock } from '../../hooks/useAppBlock';
-import { DEV_TOOLS } from '../../lib/devtools';
 import { Check } from 'lucide-react';
 import LegalSheet from '../LegalSheet';
 import { exportData } from '../../lib/exportData';
 import { CONTACT_EMAIL } from '../../legal/content';
 
-export default function SettingsView({ onOpenDev, onEditProfile, notify }) {
+export default function SettingsView({ onEditProfile, notify }) {
   const { state, dispatch } = useStore();
   const s = state.settings;
   const set = (patch) => dispatch({ type: 'settings', patch });
@@ -120,13 +119,6 @@ export default function SettingsView({ onOpenDev, onEditProfile, notify }) {
             options={[{ value: 'system', label: t('Automatic') }, { value: 'light', label: t('Light') }, { value: 'dark', label: t('Dark') }]} />
         </div>
       </Section>
-
-      {DEV_TOOLS && (
-        <Section header={t('Advanced')} footer={t('Developer Mode adds testing tools: era switcher, coin injector and timer speed-up.')}>
-          <Row icon={Wrench} iconBg="#8e8e93" title={t('Developer Mode')} right={<Switch label={t('Developer Mode')} checked={state.devMode} onChange={(v) => dispatch({ type: 'dev/toggle', on: v })} />} last={!state.devMode} />
-          {state.devMode && <Row title={t('Open Developer Panel')} onClick={onOpenDev} chevron last />}
-        </Section>
-      )}
 
       <Section header={t('Your Data')} footer={t('Everything stays on this device. Marmo Focus has no servers and collects no data.')}>
         <Row icon={Download} iconBg="#34aadc" title={t('Export My Data')} onClick={onExport} chevron />

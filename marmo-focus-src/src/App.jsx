@@ -8,7 +8,6 @@ import FocusView from './components/views/FocusView';
 import ShopView from './components/views/ShopView';
 import JourneyView from './components/views/JourneyView';
 import SettingsView from './components/views/SettingsView';
-import FriendsView from './components/views/FriendsView';
 import { evaluate } from './data/achievements';
 import { Flame, Snowflake, Trophy } from 'lucide-react';
 import { dayNumber } from './lib/economy';
@@ -20,9 +19,6 @@ import { startBlocking, stopBlocking } from './lib/appBlock';
 import { coinsFor, streakAfterFocus, streakMult } from './lib/economy';
 import { Clock3 } from 'lucide-react';
 import { DailyBonus } from './components/Streak';
-import DevPanel from './components/DevPanel';
-import { DEV_TOOLS } from './lib/devtools';
-import { FRIENDS } from './lib/features';
 import Onboarding, { ProfileSheetContent } from './components/Onboarding';
 import Celebration from './components/Celebration';
 import { BananaCoin, Sheet, Toast } from './components/ui';
@@ -35,7 +31,6 @@ function Shell() {
   setLanguage(lang);   // before children render, so every t() call below uses it
 
   const [tab, setTab] = useState('focus');
-  const [devOpen, setDevOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [toast, setToast] = useState(null);
   const timer = useTimer();
@@ -128,15 +123,13 @@ function Shell() {
     <>
       <main className="max-w-[520px] mx-auto" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'calc(62px + max(12px, env(safe-area-inset-bottom)) + 24px)' }}>
         <div key={`${tab}-${lang}`} className="a-fade">
-          {tab === 'focus' && <FocusView timer={timer} onOpenDev={() => setDevOpen(true)} onGoShop={() => go('shop')} />}
+          {tab === 'focus' && <FocusView timer={timer} onGoShop={() => go('shop')} />}
           {tab === 'journey' && <JourneyView notify={notify} />}
           {tab === 'shop' && <ShopView notify={notify} />}
-          {FRIENDS && tab === 'friends' && <FriendsView notify={notify} />}
-          {tab === 'settings' && <SettingsView onOpenDev={() => setDevOpen(true)} onEditProfile={() => setProfileOpen(true)} notify={notify} />}
+          {tab === 'settings' && <SettingsView onEditProfile={() => setProfileOpen(true)} notify={notify} />}
         </div>
       </main>
       <TabBar tab={tab} onChange={go} />
-      {DEV_TOOLS && <DevPanel open={devOpen} onClose={() => setDevOpen(false)} notify={notify} />}
       <Sheet open={profileOpen} onClose={() => setProfileOpen(false)} title={t('Profile')} detent="medium">
         <ProfileSheetContent onDone={() => setProfileOpen(false)} />
       </Sheet>

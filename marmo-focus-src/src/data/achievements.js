@@ -1,10 +1,9 @@
 // Achievements: each badge measures one number from the store against a target.
 // `measure(state)` returns the current value; a badge unlocks when value ≥ target.
-import { Award, Coffee, Coins, Compass, Crown, Flame, Gem, Hourglass, ListChecks, Moon, Mountain, NotebookPen, Shirt, Sparkles, Sunrise, Timer, Trophy, Users, Zap } from 'lucide-react';
+import { Award, Coffee, Coins, Compass, Crown, Flame, Gem, Hourglass, ListChecks, Moon, Mountain, NotebookPen, Shirt, Sparkles, Sunrise, Timer, Trophy, Zap } from 'lucide-react';
 import { ERAS, eraForMinutes } from './eras';
 import { SHOP } from './shop';
 import { num, t } from '../i18n';
-import { FRIENDS } from '../lib/features';
 
 const owns = (state, era) => SHOP.filter((i) => i.era === era).filter((i) => state.owned.includes(i.id)).length;
 const eraTotal = (era) => SHOP.filter((i) => i.era === era).length;
@@ -20,7 +19,6 @@ export function longestStreak(history) {
 const bestStreak = (s) => Math.max(longestStreak(s.history), s.streak?.count ?? 0);
 const hourCount = (state, test) => state.history.filter((h) => test(new Date(h.t).getHours())).length;
 const doneTasks = (state) => state.doneTaskCount + state.tasks.filter((t) => t.done).length;
-const realFriends = (state) => state.friends.filter((f) => !f.sample).length;
 
 export const ACHIEVEMENTS = [
   { id: 'first-focus', title: 'First Focus', desc: 'Finish your first focus session.', icon: Sparkles, color: '#e8915f', target: 1, measure: (s) => s.sessions },
@@ -43,14 +41,13 @@ export const ACHIEVEMENTS = [
   { id: 'traveler', title: 'Time Traveler', desc: 'Reach the Pirate Age.', icon: Compass, color: '#3f8ea3', target: 4, unit: 'era', measure: (s) => eraForMinutes(s.focusMinutes).index + 1 },
   { id: 'end-of-time', title: 'End of Time', desc: 'Reach the Post-Apocalyptic era.', icon: Compass, color: '#66913c', target: ERAS.length, unit: 'era', measure: (s) => eraForMinutes(s.focusMinutes).index + 1 },
   { id: 'planner', title: 'Clear Planner', desc: 'Complete 10 tasks from your list.', icon: ListChecks, color: '#5a9b7b', target: 10, measure: doneTasks },
-  { id: 'social', title: 'Focus Buddies', desc: 'Add 3 friends.', icon: Users, color: '#4f86cf', target: 3, measure: realFriends },
   { id: 'big-spender', title: 'Big Spender', desc: 'Spend 2,000 Banana Coins.', icon: Coins, color: '#b9852c', target: 2000, unit: 'coins', measure: (s) => s.coinsSpent },
   { id: 'reflective', title: 'Reflective Mind', desc: 'Write 10 session notes.', icon: NotebookPen, color: '#8a7bc4', target: 10, measure: (s) => s.history.filter((h) => h.note).length },
   { id: 'well-rested', title: 'Well Rested', desc: 'Finish 10 breaks.', icon: Coffee, color: '#8a9a5b', target: 10, measure: (s) => s.breaksTaken ?? 0 },
 ];
 
 export const evaluate = (state) =>
-  ACHIEVEMENTS.filter((a) => a.id !== 'social' || FRIENDS).map((a) => {
+  ACHIEVEMENTS.map((a) => {
     const value = Math.min(a.target, a.measure(state));
     return { ...a, value, done: Boolean(state.achievements[a.id]) || value >= a.target, unlockedAt: state.achievements[a.id] ?? null };
   });

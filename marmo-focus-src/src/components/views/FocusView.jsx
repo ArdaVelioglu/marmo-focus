@@ -1,5 +1,5 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { Lock, LockOpen, Clock3, CloudRain, CloudSnow, Coffee, Crosshair, Flame, Headphones, Moon, NotebookPen, Pause, Pencil, Play, SkipForward, Sun, Sunrise, Sunset, Wrench, X } from 'lucide-react';
+import { Lock, LockOpen, Clock3, CloudRain, CloudSnow, Coffee, Crosshair, Flame, Headphones, Moon, NotebookPen, Pause, Pencil, Play, SkipForward, Sun, Sunrise, Sunset, X } from 'lucide-react';
 import { useStore, useDerived, placedIn } from '../../state/store';
 import { fmt, fmtHours, haptic, unlockAudio } from '../../lib/feedback';
 import { MAX_MINUTES, MAX_MULT, MIN_MINUTES, PRESETS, STEP_MINUTES, coinsFor, fmtMultiplier, presetLabel, presetShort, streakAfterFocus, streakMult, totalMultiplier } from '../../lib/economy';
@@ -12,7 +12,6 @@ import AmbienceSheet, { SoundBars, usePlaying } from '../AmbienceSheet';
 import { StreakChip, StreakSheet } from '../Streak';
 import { useClockLock } from '../../hooks/useClockLock';
 import { locale, num, t, tp } from '../../i18n';
-import { DEV_TOOLS } from '../../lib/devtools';
 import { PHASE_LABEL, WEATHER_LABEL, resolveAtmosphere } from '../../lib/atmosphere';
 
 const PHASE_ICON = { morning: Sunrise, day: Sun, evening: Sunset, night: Moon };
@@ -24,7 +23,7 @@ function useMinuteClock() {
   return now;
 }
 
-export default function FocusView({ timer, onOpenDev, onGoShop }) {
+export default function FocusView({ timer, onGoShop }) {
   const { state, dispatch } = useStore();
   const { era, earnedEra, nextEra, progress } = useDerived();
   const [renaming, setRenaming] = useState(false);
@@ -40,36 +39,17 @@ export default function FocusView({ timer, onOpenDev, onGoShop }) {
   // Asleep for the whole focus session (paused too), awake on breaks, then a happy wake-up when a session ends.
   const mood = cheer ?? (mode === 'focus' && status !== 'idle' ? (state.timer.disturbed ? 'grumpy' : 'sleep') : 'idle');
 
-  // Easter egg: tap the logo 5× quickly to turn on Developer Mode.
-  const taps = useRef([]);
-  const onLogo = () => {
-    if (!DEV_TOOLS) return;
-    const now = Date.now();
-    taps.current = [...taps.current.filter((t) => now - t < 1500), now];
-    if (taps.current.length >= 5) {
-      taps.current = [];
-      haptic([10, 40, 10]);
-      dispatch({ type: 'dev/toggle', on: true });
-      onOpenDev();
-    }
-  };
-
   const left = nextEra ? nextEra.hours * 60 - state.focusMinutes : 0;
   const statusText = cheer ? t('Awake!') : running ? (mode === 'focus' ? (state.timer.disturbed ? t('Woken up') : t('Sleeping')) : t('On a break')) : status === 'paused' ? t('Paused') : null;
 
   return (
     <div className="pb-6">
       <header className="flex items-center justify-between px-5 pt-7">
-        <button onClick={onLogo} className="flex items-center gap-2.5 select-none" aria-label="Marmo Focus">
+        <div className="flex items-center gap-2.5 select-none" aria-label="Marmo Focus">
           <Logo size={34} />
           <span className="font-rounded text-[19px] font-bold tracking-tight">Marmo</span>
-        </button>
+        </div>
         <div className="flex items-center gap-2">
-          {state.devMode && (
-            <button onClick={onOpenDev} aria-label={t('Developer panel')} className="pressable card !rounded-full grid place-items-center w-9 h-9 text-tint">
-              <Wrench size={16} strokeWidth={2.4} />
-            </button>
-          )}
           <StreakChip onClick={() => setStreakOpen(true)} />
           <CoinPill coins={state.coins} onClick={onGoShop} />
         </div>

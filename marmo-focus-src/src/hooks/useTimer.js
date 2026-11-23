@@ -6,7 +6,7 @@ import { now as clockNow } from '../lib/clock';
 /** Drives the countdown from an absolute end timestamp, so it stays accurate in background tabs. */
 export function useTimer() {
   const { state, dispatch } = useStore();
-  const { timer, devSpeed, settings } = state;
+  const { timer, settings } = state;
   const [now, setNow] = useState(clockNow());
   const fired = useRef(0);
 
@@ -16,7 +16,7 @@ export function useTimer() {
     return () => clearInterval(id);
   }, [timer.status]);
 
-  const remaining = timer.status === 'running' ? Math.max(0, (timer.endsAt - now) * devSpeed) : timer.remaining;
+  const remaining = timer.status === 'running' ? Math.max(0, timer.endsAt - now) : timer.remaining;
 
   useEffect(() => {
     if (timer.status === 'running' && remaining <= 0 && fired.current !== timer.endsAt) {

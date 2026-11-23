@@ -75,24 +75,10 @@ Warm pastel palette with soft gradients and shadows, defined as tokens at the to
 
 | Feature | What it does | Files |
 |---|---|---|
-| Friends | Friends tab with your friend code, add-by-code, a leaderboard (today · this week · all time, by focus time), and room visits that show a friend's marmoset, outfit, decor and stats. | `components/views/FriendsView.jsx`, `lib/social.js` |
-| Invites | Share or copy an invite message. You get 250 Banana Coins per friend who joins with your code; a new player who redeems a code gets 100 (once). | `state/store.jsx` (`invite/redeem`, `referral/joined`), `lib/clipboard.js` |
 | Sounds | Rain, Forest, Fireplace and Lo-Fi Beats, synthesized live with Web Audio (no audio files). Mix them, set each volume and a master volume. They keep playing across tabs. | `lib/ambience.js`, `components/AmbienceSheet.jsx` |
 | Tasks | A to-do list on the Focus tab. Pin one task (crosshair) and it shows beside the timer and is saved with the session. Tasks never pay coins. | `components/TasksCard.jsx` |
 | Badges | 21 achievements with progress bars, a summary on the Journey tab, a full sheet with filters, and a toast when one unlocks. Badges don't pay coins either. | `data/achievements.js`, `components/Achievements.jsx` |
 | Atmosphere | The room's light follows the time of day (dawn rays, warm day, dusk glow, night with a lamp) and a daily forecast adds rain or, in winter, snow. Override both in Settings → Room Atmosphere. | `lib/atmosphere.js`, `components/art/Atmosphere.jsx` |
-
-### Connecting a real backend for Friends
-
-This build has no server, so `src/lib/social.js` generates friend profiles from their code. The same code always gives the same marmoset, and their daily and weekly totals change from day to day. Three sample friends (LUNA42, KAITO7, ELIF88) are added so the screen isn't empty; they're labeled and can be removed.
-
-To go live, replace the three functions in `social.js` with API calls; no view needs to change:
-
-- `lookupFriend(code)` → `GET /players/:code`
-- `getProfiles(codes)` → `POST /players/batch`
-- `reportReferral(code)` → `POST /referrals`, then have the server credit the inviter, which the app applies with the `referral/joined` action.
-
-Developer Mode has **Simulate Friend Joining** to test the invite reward and **Unlock All Badges** to preview every badge.
 
 ## Structure
 
@@ -103,7 +89,6 @@ src/
   lib/economy.js          presets, slider range, multiplier, coins, break length
   lib/ambience.js         Web Audio soundscapes (rain, forest, fire, lo-fi)
   lib/atmosphere.js       time of day + daily forecast
-  lib/social.js           friend service (swap for a real API)
   data/achievements.js    badge definitions and progress
   data/eras.js            8 eras: unlock hours, tints, scene palettes
   data/shop.js            88 items with slots, prices and labels
@@ -115,14 +100,7 @@ src/
     PetNameSheet.jsx      rename the marmoset
     art/                  Marmoset (16 outfits), era scenes, decor (items.jsx, items2.jsx)
     views/                Focus, Journey, Shop, Settings
-    DevPanel.jsx          era switcher, +10,000 coins, +1h focus, timer speed, reset
 ```
-
-## Developer Mode
-
-Developer tools exist only in development builds (`npm run dev`); release builds leave them out. To include them in a build, run `VITE_DEV_TOOLS=true npm run build`.
-
-Tap the logo 5 times on the Focus tab, or turn on Settings → Advanced → Developer Mode. A wrench button then opens the panel. Set the timer to 600× to finish a 25-minute session in about 2.5 seconds.
 
 ## Accounts
 
@@ -137,8 +115,6 @@ Tap the logo 5 times on the Focus tab, or turn on Settings → Advanced → Deve
 | Daily bonus | First open each day pays 10 coins, +2 per streak day (max 30). | `components/Streak.jsx`, `lib/economy.js` |
 | Streak | Finishing a session on consecutive days grows the streak. 3 / 7 / 14 / 30 days give ×1.10 / ×1.25 / ×1.40 / ×1.50 coins, stacked with the session bonus up to ×5. New badges for 14 and 30 days. Flame chip on the Focus header, streak card on Journey. | `components/Streak.jsx`, `state/store.jsx`, `data/achievements.js` |
 | Session notes | After a focus session a soft card asks "What did you get done this session?". Notes appear under Journey → Recent sessions; 10 notes earn the *Reflective Mind* badge. | `components/views/FocusView.jsx` (`NoteCard`), `components/views/JourneyView.jsx` |
-
-Developer Mode adds **Add 1 Streak Day** and **Show Daily Bonus Again**.
 
 ## New in 1.5
 
@@ -204,9 +180,16 @@ Wrap UI text in `t('English text', { vars })` (or `tp(n, one, other)` for plural
 | **Privacy Policy, Terms of Use, Acknowledgements.** In the app (Settings → About) and as web pages for the App Store URL. Edit `src/legal/content.js`, then run `npm run legal`. | `src/legal/`, `components/LegalSheet.jsx`, `scripts/build-legal.mjs`, `public/legal/`, `legal/` |
 | **Your Data.** Export My Data (JSON) and Sign Out & Erase. | `lib/exportData.js`, `views/SettingsView.jsx` |
 | **No third-party requests.** Nunito is bundled (OFL); release builds ship a Content-Security-Policy. | `main.jsx`, `vite.config.js` |
-| **Friends tab off in release builds** (it runs on sample data until a backend exists). | `lib/features.js` |
 | **Crash safety.** Saved data is type-checked on load; an error screen offers reload, export and reset. | `state/store.jsx`, `components/ErrorBoundary.jsx` |
 | **iOS app (Capacitor 7, Swift Package Manager).** Native notifications, storage and haptics; iPhone-only, portrait. | `capacitor.config.json`, `ios/`, `lib/notifications.js`, `lib/storage.js`, `lib/feedback.js` |
 | **App blocking (iOS 16+).** A "Block apps" switch on the Focus screen (offered once before the first session) and Settings → App Blocking: pick apps in Apple's Screen Time picker; they are shielded ("Mango is sleeping 💤") during focus sessions and unlock on their own when the session ends. Uses Family Controls with two app extensions; the selection stays on the device as opaque tokens. | `lib/appBlock.js`, `ios/App/App/AppBlockPlugin.swift`, `ios/App/MarmoMonitor/`, `ios/App/MarmoShield/` |
+
+## New in 1.8.1 — App Review (guideline 5.6)
+
+| Change | Files |
+|---|---|
+| **Removed the unfinished Friends / invite system and the developer tools from the app.** They were switched off in release builds but their code and texts were still inside the app bundle, which App Review read as features hidden from review. The code is kept on the `archive/friends-and-devtools` branch. | `state/store.jsx`, `App.jsx`, `TabBar.jsx`, `FocusView.jsx`, `SettingsView.jsx`, `i18n/` |
+| **Release check.** `npm run build` now fails if the bundle contains developer-tool or friends/invite code or texts. | `scripts/check-release.mjs` |
+| **Privacy manifest** (`PrivacyInfo.xcprivacy`) for the app and the shield extension: no tracking, no data collected, UserDefaults for the app's own / App Group data. | `ios/App/App/`, `ios/App/MarmoShield/` |
 
 Release steps, App Store Connect answers and the security/legal review: [`APP_STORE_CHECKLIST.md`](APP_STORE_CHECKLIST.md).

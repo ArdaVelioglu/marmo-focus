@@ -2,19 +2,10 @@ import { createContext, useContext, useEffect, useReducer } from 'react';
 import { ERAS, eraForMinutes, eraById } from '../data/eras';
 import { now, rewardsLocked } from '../lib/clock';
 import { flush, readDurable, readLocal, requestPersistence, save } from '../lib/storage';
-import { DEV_TOOLS } from '../lib/devtools';
-import { FRIENDS } from '../lib/features';
 import { SHOP, itemById } from '../data/shop';
 import { FREEZE_PRICE, MAX_FREEZES, MAX_MINUTES, MIN_MINUTES, STREAK_TIERS, breakFor, coinsFor, dailyBonusFor, dayNumber, liveStreak, streakAfterFocus, streakMult } from '../lib/economy';
 
 const KEY = 'marmo-focus:v1';
-export const INVITE_REWARD = 250;     // you, when a friend joins with your code
-export const WELCOME_REWARD = 100;    // the new friend, when they redeem a code
-export const SAMPLE_FRIEND_CODES = ['LUNA42', 'KAITO7', 'ELIF88'];
-
-const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-export const makeCode = () => Array.from({ length: 6 }, () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]).join('');
-export const normalizeCode = (c) => c.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
 const uid = () => Math.random().toString(36).slice(2, 10);
 export const DEFAULT_PET_NAME = 'Mango';
 
@@ -45,9 +36,6 @@ const initial = {
   placed: {},                    // { [eraId]: { [slot]: itemId } } — what stands in each room
   outfit: null,                  // equipped outfit id (worn across eras)
   activeEra: 'stone',
-  devMode: false,
-  devUnlockAll: false,
-  devSpeed: 1,
   settings: DEFAULT_SETTINGS,
   timer: idleTimer(DEFAULT_SETTINGS.session),
   lastReward: null,              // { coins, minutes, streak, streakMult, tier } of the last finished session
@@ -57,10 +45,6 @@ const initial = {
   tasks: [],                     // [{ id, text, done, createdAt, doneAt }]
   currentTask: null,             // task id the next session is for
   doneTaskCount: 0,              // completed tasks that were cleared from the list
-  myCode: null,                  // this player's friend / invite code
-  friends: FRIENDS ? SAMPLE_FRIEND_CODES.map((code) => ({ code, addedAt: 0, sample: true })) : [],
-  redeemedInvite: null,          // code redeemed once for the welcome bonus
-  referrals: [],                 // codes of friends who joined with my code
   achievements: {},              // { [id]: unlockedAt }
   coinsSpent: 0,
   breaksTaken: 0,
@@ -80,11 +64,10 @@ const initial = {
 
 const clampMinutes = (m) => (Number.isFinite(Number(m)) ? Math.min(MAX_MINUTES, Math.max(MIN_MINUTES, Math.round(Number(m)))) : DEFAULT_SETTINGS.session);
 const breakMinutesOf = (s, focusMin) => (s.breakAuto ? breakFor(focusMin) : s.breakMinutes);
-export const isEraUnlocked = (state, era) => state.devUnlockAll || state.focusMinutes / 60 >= era.hours;
+export const isEraUnlocked = (state, era) => state.focusMinutes / 60 >= era.hours;
 export const placedIn = (state, eraId) => state.placed[eraId] ?? {};
 
 function reducer(state, a) {
-  if (!DEV_TOOLS && a.type.startsWith('dev/')) return state;   // release builds ignore developer actions
   switch (a.type) {
     case 'profile': {
       const profile = a.profile?.mode === 'local' ? { mode: 'local', name: String(a.profile.name ?? '').trim().slice(0, 24) } : { mode: 'guest' };
@@ -104,11 +87,11 @@ function reducer(state, a) {
     case 'timer/start': {
       const t = state.timer;
       const remaining = t.status === 'idle' ? t.minutes * 60000 : t.remaining;
-      return { ...state, timer: { ...t, status: 'running', remaining, endsAt: now() + remaining / state.devSpeed } };
+      return { ...state, timer: { ...t, status: 'running', remaining, endsAt: now() + remaining } };
     }
     case 'timer/pause': {
       const t = state.timer;
-      return { ...state, timer: { ...t, status: 'paused', remaining: Math.max(0, (t.endsAt - now()) * state.devSpeed) } };
+      return { ...state, timer: { ...t, status: 'paused', remaining: Math.max(0, t.endsAt - now()) } };
     }
     case 'focus/disturbed': {      // the person left the app mid-session for longer than the grace period
       const t = state.timer;
@@ -119,7 +102,7 @@ function reducer(state, a) {
       return { ...state, timer: idleTimer(state.settings.session) };
     case 'timer/break': {           // start a break manually
       const m = breakMinutesOf(state.settings, state.settings.session);
-      return { ...state, timer: { mode: 'break', status: 'running', minutes: m, remaining: m * 60000, endsAt: now() + (m * 60000) / state.devSpeed } };
+      return { ...state, timer: { mode: 'break', status: 'running', minutes: m, remaining: m * 60000, endsAt: now() + m * 60000 } };
     }
     case 'timer/complete': {
       const t = state.timer;
@@ -155,7 +138,7 @@ function reducer(state, a) {
       const run = state.settings.autoBreaks;
       return {
         ...next,
-        timer: { mode: 'break', status: run ? 'running' : 'idle', minutes: bm, remaining: bm * 60000, endsAt: run ? now() + (bm * 60000) / state.devSpeed : 0 },
+        timer: { mode: 'break', status: run ? 'running' : 'idle', minutes: bm, remaining: bm * 60000, endsAt: run ? now() + bm * 60000 : 0 },
       };
     }
 
@@ -229,26 +212,6 @@ function reducer(state, a) {
     }
     case 'task/focus': return { ...state, currentTask: state.currentTask === a.id ? null : a.id };
 
-    // ---- friends ----
-    case 'friend/add': {
-      const code = normalizeCode(a.code);
-      if (!code || code === state.myCode || state.friends.some((f) => f.code === code)) return state;
-      return { ...state, friends: [...state.friends, { code, addedAt: now() }] };
-    }
-    case 'friend/remove': return { ...state, friends: state.friends.filter((f) => f.code !== a.code) };
-    case 'invite/redeem': {      // a new player enters the code of whoever invited them
-      const code = normalizeCode(a.code);
-      if (!code || state.redeemedInvite || code === state.myCode) return state;
-      const next = reducer({ ...state, redeemedInvite: code, coins: state.coins + WELCOME_REWARD }, { type: 'friend/add', code });
-      return next;
-    }
-    case 'referral/joined': {    // reported by the server when someone signs up with my code
-      const code = normalizeCode(a.code);
-      if (state.referrals.includes(code)) return state;
-      const next = { ...state, referrals: [...state.referrals, code], coins: state.coins + INVITE_REWARD };
-      return reducer(next, { type: 'friend/add', code });
-    }
-
     // ---- achievements / ambience / atmosphere ----
     case 'achievements/unlock': {
       const at = now();
@@ -263,22 +226,8 @@ function reducer(state, a) {
     case 'blockAsked': return { ...state, blockAsked: true };
     case 'settings': return { ...state, settings: { ...state.settings, ...a.patch } };
 
-    // ---- developer ----
-    case 'dev/toggle': return { ...state, devMode: a.on ?? !state.devMode };
-    case 'dev/era': return { ...state, activeEra: a.id, devUnlockAll: true };
-    case 'dev/coins': return { ...state, coins: state.coins + a.amount };
-    case 'dev/minutes': return { ...state, focusMinutes: Math.max(0, state.focusMinutes + a.amount) };
-    case 'dev/unlockAll': return { ...state, devUnlockAll: a.on };
-    case 'dev/speed': {
-      const t = state.timer;
-      const timer = t.status === 'running' ? { ...t, endsAt: now() + ((t.endsAt - now()) * state.devSpeed) / a.speed } : t;
-      return { ...state, devSpeed: a.speed, timer };
-    }
-    case 'dev/streak': return { ...state, streak: { count: liveStreak(state.streak) + 1, last: dayNumber() } };
-    case 'dev/daily': return { ...state, lastBonusDay: null };
-    case 'dev/finish': return reducer({ ...state, timer: { ...state.timer, status: 'running' } }, { type: 'timer/complete' });
-    case 'reset': return { ...initial, profile: state.profile, petName: state.petName, settings: state.settings, myCode: state.myCode, friends: state.friends, tasks: state.tasks, lastBonusDay: state.lastBonusDay };
-    case 'signout': return { ...initial, myCode: makeCode() };
+    case 'reset': return { ...initial, profile: state.profile, petName: state.petName, settings: state.settings, tasks: state.tasks, lastBonusDay: state.lastBonusDay };
+    case 'signout': return { ...initial };
     case 'hydrate': return a.state;
     default: return state;
   }
@@ -317,7 +266,7 @@ function sanitize(saved) {
 
 function fromSaved(raw) {
   try {
-    if (!raw) return { ...initial, myCode: makeCode() };
+    if (!raw) return { ...initial };
     const saved = sanitize(JSON.parse(raw));
     const settings = { ...DEFAULT_SETTINGS, ...saved.settings };
     if (saved.settings?.focus && !saved.settings.session) settings.session = clampMinutes(saved.settings.focus);
@@ -341,7 +290,6 @@ function fromSaved(raw) {
     const { hidden: _h, ...rest } = saved;
     return {
       ...initial, ...rest, owned, placed, settings, timer, celebrate: null, lastReward: null,
-      myCode: saved.myCode ?? makeCode(),
       streak: saved.streak ?? streakFromHistory(saved.history ?? []),
       noteFor: null,
       ambience: { ...initial.ambience, ...saved.ambience },
@@ -349,11 +297,9 @@ function fromSaved(raw) {
       atmosphere: (saved.v ?? 1) < 2 && saved.atmosphere?.time === 'auto' && saved.atmosphere?.weather === 'auto'
         ? initial.atmosphere : { ...initial.atmosphere, ...saved.atmosphere },
       v: 3,
-      ...(DEV_TOOLS ? {} : { devMode: false, devUnlockAll: false, devSpeed: 1 }),
-      ...(FRIENDS ? {} : { friends: [] }),   // sample friends exist only where the Friends tab does
     };
   } catch {
-    return { ...initial, myCode: makeCode() };
+    return { ...initial };
   }
 }
 

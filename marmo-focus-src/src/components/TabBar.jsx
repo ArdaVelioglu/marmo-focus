@@ -1,15 +1,12 @@
-import { Hourglass, Settings, Store, Timer, Users } from 'lucide-react';
+import { Hourglass, Settings, Store, Timer } from 'lucide-react';
 import { t } from '../i18n';
-import { FRIENDS } from '../lib/features';
 
-const ALL_TABS = [
+export const TABS = [
   { id: 'focus', label: 'Focus', icon: Timer },
   { id: 'journey', label: 'Journey', icon: Hourglass },
   { id: 'shop', label: 'Shop', icon: Store },
-  { id: 'friends', label: 'Friends', icon: Users },
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
-export const TABS = ALL_TABS.filter((tab) => tab.id !== 'friends' || FRIENDS);
 
 /** Floating capsule tab bar on a frosted material, inset from the screen edges. */
 export default function TabBar({ tab, onChange }) {

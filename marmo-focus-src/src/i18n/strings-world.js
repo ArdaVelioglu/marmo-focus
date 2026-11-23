@@ -259,8 +259,6 @@ export const WORLD = [
   ["Reach the Post-Apocalyptic era.", "文明崩壊後の時代にたどり着く。", "Llega a la era postapocalíptica.", "Raggiungi l’era post-apocalittica."],
   ["Clear Planner", "計画上手", "Planificador claro", "Pianificatore esperto"],
   ["Complete 10 tasks from your list.", "リストのタスクを10個完了する。", "Completa 10 tareas de tu lista.", "Completa 10 attività della tua lista."],
-  ["Focus Buddies", "集中仲間", "Compañeros de concentración", "Compagni di focus"],
-  ["Add 3 friends.", "フレンドを3人追加する。", "Añade 3 amigos.", "Aggiungi 3 amici."],
   ["Big Spender", "大盤振る舞い", "Gran derrochador", "Spendaccione"],
   ["Spend 2,000 Banana Coins.", "バナナコインを2,000使う。", "Gasta 2.000 Monedas Banana.", "Spendi 2.000 Monete Banana."],
   ["Reflective Mind", "ふりかえり上手", "Mente reflexiva", "Mente riflessiva"],
@@ -290,7 +288,4 @@ export const WORLD = [
   ["Lo-Fi Beats", "Lo-Fiビート", "Ritmos lo-fi", "Beat lo-fi"],
   ["Mellow chords and soft drums", "やわらかなコードと穏やかなドラム", "Acordes suaves y batería tranquila", "Accordi morbidi e batteria leggera"],
 
-  // leaderboard ranges
-  ["This Week", "今週", "Esta semana", "Questa settimana"],
-  ["All Time", "全期間", "Siempre", "Sempre"],
 ];

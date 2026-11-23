@@ -1,11 +1,11 @@
 {
   "name": "marmoset-focus",
   "private": true,
-  "version": "1.8.0",
+  "version": "1.8.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/check-release.mjs",
     "build:single": "vite build --mode single",
     "preview": "vite preview",
     "legal": "node scripts/build-legal.mjs",
