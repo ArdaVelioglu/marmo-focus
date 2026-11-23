@@ -56,13 +56,13 @@ Projede hazır olanlar: yalnızca iPhone, yalnızca dikey ekran, uygulama ikonu,
 
 **App Review Notes (önerilen metin, 1.8.1):**
 
-> Marmo Focus works fully offline and needs no account: tap "Start as Guest" to begin. "Create a Profile" only stores a display name on the device. The shortest focus session is 15 minutes; when it ends, the marmoset wakes up and the session is rewarded with Banana Coins (virtual, cannot be bought or sold). If you leave the app during a session, a short grace period applies and a notification asks you to return.
+> Marmo Focus works fully offline and needs no account: tap "Start as Guest" to begin. "Create a Profile" only stores a display name on the device. The shortest focus session is 5 minutes (tap the "5m" preset); when it ends, the marmoset wakes up and the session is rewarded with Banana Coins (virtual, cannot be bought or sold). If you leave the app during a session, a short grace period applies and a notification asks you to return.
 >
-> Everything in the app is visible from the four tabs (Focus, Journey, Shop, Settings). There are no hidden features, no secret gestures, no remote configuration and no server: the app makes no network requests. Later eras and their shop items unlock after a total amount of focus time (2, 5, 10, 18, 30, 45 and 65 hours); the Journey tab shows every era and what it needs. An attached screen recording shows these eras.
+> Everything in the app is visible from the four tabs (Focus, Journey, Shop, Settings). There are no hidden features, no secret gestures, no remote configuration and no server: the app makes no network requests. Later eras and their shop items unlock after a total amount of focus time (2, 5, 10, 18, 30, 45 and 65 hours). Nothing is hidden: on the Journey tab, tap any locked era to see a full preview of its room and every item it adds to the Shop, with prices.
 >
 > App blocking (Family Controls): when you tap "Start focusing" the first time, the app offers "Block distracting apps?" (it is also the "Block apps" switch on the Focus screen and Settings → App Blocking). Tap "Choose Apps", allow Screen Time access and pick apps in Apple's picker. While a focus session runs, those apps show a shield ("Mango is sleeping"); they unlock automatically when the session ends or is given up (a DeviceActivity monitor extension lifts the shield even if the app is closed). Authorization is individual (device owner only). The selection stays on the device as opaque tokens. The app collects no data: there is no server, analytics or advertising.
 >
-> Changes in 1.8.1: we removed an unfinished, disabled "Friends" feature and internal developer testing tools whose code was still included in 1.8.0. They were never reachable in the release build, and their code is no longer in the app.
+> Changes in 1.8.1: focus sessions can now be as short as 5 minutes; locked eras can be previewed; we removed an unfinished, disabled "Friends" feature and internal developer testing tools whose code was still included in 1.8.0. They were never reachable in the release build, and their code is no longer in the app.
 
 **Ekran görüntüleri:** 6.9" (1320×2868 veya 1290×2796) iPhone boyutu yeterli; `docs/screenshots/` ve tanıtım videosu (App Preview, 886×1920) hazır.
 
@@ -74,7 +74,8 @@ Projede hazır olanlar: yalnızca iPhone, yalnızca dikey ekran, uygulama ikonu,
 | 2.3 Doğru açıklama | Sahte kullanıcılar (Arkadaşlar sekmesi) | 1.8.1'de koddan tamamen kaldırıldı ✔ |
 | **5.6 Developer Code of Conduct** | **1.8.0 bu yüzden reddedildi.** Kapalı ama pakette duran Arkadaşlar/davet sistemi ve geliştirici paneli (logoya 5 kez dokunma) "incelemeden gizlenmiş özellik" sayıldı. | 1.8.1'de ikisi de koddan silindi, derleme kontrolü eklendi ✔. **Kural:** Yayın paketine kapalı/gizli özellik, gizli hareket, uzaktan açılan anahtar koyma. Bitmemiş özellik ayrı branch'te kalsın. |
 | 5.1.2 / Privacy manifest | `UserDefaults` kullanımı için `PrivacyInfo.xcprivacy` zorunlu | App ve MarmoShield hedeflerine eklendi ✔ (Xcode'da *Build Phases → Copy Bundle Resources* içinde göründüğünü kontrol et) |
-| 2.1 İnceleme erişimi | Dönemler 2–65 saat odakla açılıyor; inceleyen bunları göremez ve "gizli içerik" sanabilir | İnceleme notunda açıkça anlatıldı ve ekran kaydı önerildi (aşağıda) |
+| 2.1 İnceleme erişimi | Dönemler 2–65 saat odakla açılıyor; inceleyen bunları göremez ve "gizli içerik" sanabilir | Journey'de kilitli bir döneme dokununca net bir önizleme açılıyor (oda, açıklama, tüm eşyalar ve fiyatları) ✔. İnceleme notunda da anlatıldı. |
+| 2.3.3 Ekran görüntüleri | Eski görüntülerde artık olmayan Friends sekmesi ve eski süre seçenekleri vardı | `docs/screenshots/` 1.8.1'den 1290×2796 (6.9") olarak yeniden üretildi ✔. **App Store Connect'tekileri de bunlarla değiştir.** |
 | 4.2 Minimum işlev | "Web sitesi sarmalayıcısı" sayılma riski | Azaltıldı: çevrimdışı çalışma, yerel bildirimler, Taptic titreşim, uygulama içi kalıcı kayıt. Tamamen sıfır değil; reddedilirse widget veya Live Activity eklemek en etkili çözüm. |
 | 5.1.1 Gizlilik | Uygulama içinde ve mağazada gizlilik politikası | Var ✔ (Ayarlar → Hakkında, ilk açılış) |
 | 5.1.1(v) Hesap silme | Hesap oluşturuluyorsa silinebilmeli | Sunucu hesabı yok; cihazdaki profil "Sign Out & Erase" ile siliniyor ✔ |

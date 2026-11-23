@@ -10,7 +10,7 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 export const DEFAULT_PET_NAME = 'Mango';
 
 export const DEFAULT_SETTINGS = {
-  session: 15,          // chosen focus length in minutes (15–180)
+  session: 15,          // chosen focus length in minutes (5–180)
   breaks: false,        // offer a break after each session (off by default since 1.6)
   breakAuto: true,      // break = one fifth of the session (5–30 min)
   breakMinutes: 5,      // used when breakAuto is off
@@ -271,7 +271,7 @@ function fromSaved(raw) {
     const settings = { ...DEFAULT_SETTINGS, ...saved.settings };
     if (saved.settings?.focus && !saved.settings.session) settings.session = clampMinutes(saved.settings.focus);
     for (const k of ['focus', 'short', 'long', 'longEvery']) delete settings[k];
-    settings.session = clampMinutes(settings.session);   // 1.5 raised the minimum to 15 min
+    settings.session = clampMinutes(settings.session);   // keep saved lengths within 5–180 min
     if ((saved.v ?? 1) < 3) settings.breaks = false;     // 1.6 turned break suggestions off
 
     const owned = (saved.owned ?? []).filter((id) => itemById(id));

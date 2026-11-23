@@ -1,10 +1,11 @@
 import { Check, Crosshair, Flame, Lock, MapPin, NotebookPen } from 'lucide-react';
 import { presetLabel } from '../../lib/economy';
-import { BananaCoin } from '../ui';
+import { BananaCoin, Button, Sheet } from '../ui';
 import { StreakSheet } from '../Streak';
 import StatsSheet, { StatsSummary } from '../Stats';
 import { useStore, useDerived, isEraUnlocked, placedIn } from '../../state/store';
 import { ERAS } from '../../data/eras';
+import { SHOP } from '../../data/shop';
 import { fmtHours } from '../../lib/feedback';
 import Room from '../Room';
 import { LargeTitle } from '../ui';
@@ -18,6 +19,7 @@ export default function JourneyView({ notify }) {
   const [badges, setBadges] = useState(false);
   const [streakOpen, setStreakOpen] = useState(false);
   const [statsOpen, setStatsOpen] = useState(false);
+  const [preview, setPreview] = useState(null);   // locked era shown in the preview sheet
   const recent = state.history.slice(-8).reverse();
 
   const stats = [
@@ -98,8 +100,12 @@ export default function JourneyView({ notify }) {
                 {open ? <Check size={14} strokeWidth={3} /> : <Lock size={12} strokeWidth={2.6} />}
               </span>
 
-              <button disabled={!open}
-                onClick={() => { dispatch({ type: 'era', id: era.id }); notify({ text: t('Traveled to {era}', { era: t(era.name) }), icon: <MapPin size={16} className="text-tint" /> }); }}
+              <button
+                onClick={() => {
+                  if (!open) { setPreview(era); return; }
+                  dispatch({ type: 'era', id: era.id });
+                  notify({ text: t('Traveled to {era}', { era: t(era.name) }), icon: <MapPin size={16} className="text-tint" /> });
+                }}
                 className={`pressable w-full text-left card !rounded-[22px] overflow-hidden flex items-stretch ${here ? 'ring-2 ring-tint' : ''}`}>
                 <div className={`w-[112px] shrink-0 aspect-[6/5] ${open ? '' : 'grayscale opacity-50'}`}>
                   <Room era={era} placed={placedIn(state, era.id)} outfit={state.outfit} />
@@ -108,7 +114,7 @@ export default function JourneyView({ notify }) {
                   <p className="t-footnote text-label2">{t('Era {n}', { n: i + 1 })}</p>
                   <p className="t-headline truncate">{t(era.name)}</p>
                   <p className="t-footnote mt-0.5" style={{ color: here ? 'var(--tint)' : 'var(--sys-label2)' }}>
-                    {here ? t('You are here') : home ? t('Home era') : open ? t('Tap to visit') : t('Unlocks at {h}h focus', { h: era.hours })}
+                    {here ? t('You are here') : home ? t('Home era') : open ? t('Tap to visit') : t('Unlocks at {h}h focus · tap to preview', { h: era.hours })}
                   </p>
                 </div>
               </button>
@@ -116,6 +122,42 @@ export default function JourneyView({ notify }) {
           );
         })}
       </ol>
+      <EraPreview era={preview} onClose={() => setPreview(null)} />
     </div>
+  );
+}
+
+/** Clear preview of a locked era: its room with the base decor, and everything it adds to the Shop. */
+function EraPreview({ era, onClose }) {
+  const { state } = useStore();
+  if (!era) return null;
+  const items = SHOP.filter((i) => i.era === era.id);
+  const decor = items.filter((i) => i.type === 'decor');
+  const outfits = items.filter((i) => i.type === 'outfit');
+  const showcase = Object.fromEntries(decor.filter((i) => i.id === `${era.id}.${i.slot}`).map((i) => [i.slot, i.id]));
+  const togo = Math.max(0, era.hours * 60 - state.focusMinutes);
+  return (
+    <Sheet open onClose={onClose} title={t('Preview')}>
+      <div className="px-4 pb-4">
+        <div className="rounded-[20px] overflow-hidden aspect-[6/5]">
+          <Room era={era} placed={showcase} outfit={outfits[0]?.id ?? null} />
+        </div>
+        <p className="t-footnote text-label2 font-medium mt-4">{t('Era {n}', { n: era.index + 1 })}</p>
+        <h3 className="t-title2 mt-0.5">{t(era.name)}</h3>
+        <p className="t-subhead text-label2 mt-1">{t(era.tagline)}</p>
+        <p className="t-subhead mt-3 flex items-start gap-1.5"><Lock size={15} className="text-label2 shrink-0 mt-[3px]" />
+          {t('Unlocks after {h} hours of total focus ({time} to go). Then all of its items can be bought with Banana Coins.', { h: era.hours, time: fmtHours(togo) })}
+        </p>
+        <h4 className="t-section mt-5 mb-1.5">{tp(items.length, '{n} item', '{n} items')}</h4>
+        <ul className="flex flex-wrap gap-1.5">
+          {[...decor, ...outfits].map((i) => (
+            <li key={i.id} className="t-footnote h-7 px-2.5 rounded-full bg-fill2 flex items-center gap-1">
+              {t(i.name)}<span className="text-label2 tabular flex items-center gap-0.5"> · <BananaCoin size={12} />{i.price}</span>
+            </li>
+          ))}
+        </ul>
+        <Button className="w-full mt-6" variant="gray" onClick={onClose}>{t('Got It')}</Button>
+      </div>
+    </Sheet>
   );
 }

@@ -8,7 +8,7 @@
   <tr>
     <td align="center"><img src="docs/screenshots/01-focus-light.png" width="220" alt="Focus screen in light mode"><br><sub>Pick a session</sub></td>
     <td align="center"><img src="docs/screenshots/03-sleeping.png" width="220" alt="The marmoset sleeps while you focus"><br><sub>Mango sleeps while you focus</sub></td>
-    <td align="center"><img src="docs/screenshots/04-celebration.png" width="220" alt="Wake-up celebration and session note"><br><sub>…and wakes up happy</sub></td>
+    <td align="center"><img src="docs/screenshots/10-era-preview.png" width="220" alt="Preview of a locked era"><br><sub>Preview every era before you reach it</sub></td>
   </tr>
   <tr>
     <td align="center"><img src="docs/screenshots/05-journey.png" width="220" alt="Journey tab with streak, statistics and badges"><br><sub>Journey, badges, notes</sub></td>
@@ -48,7 +48,7 @@ Stack: React 18 · Vite 6 · Tailwind CSS 4 (`@tailwindcss/vite`) · lucide-reac
 
 ## Economy
 
-Each finished session pays `minutes × multiplier`. Sessions run 15 min – 3 h (default 15 min). The multiplier rises smoothly from ×1.0 at 15 minutes and is capped at **×5.0** at 3 hours (streak bonus included):
+Each finished session pays `minutes × multiplier`. Sessions run 5 min – 3 h (default 15 min); up to 15 min they pay 1 coin per minute. The multiplier rises smoothly from ×1.0 at 15 minutes and is capped at **×5.0** at 3 hours (streak bonus included):
 
 `multiplier = 1 + 4 · t^1.25`, where `t = (minutes − 15) / 165`
 
@@ -190,6 +190,9 @@ Wrap UI text in `t('English text', { vars })` (or `tp(n, one, other)` for plural
 |---|---|
 | **Removed the unfinished Friends / invite system and the developer tools from the app.** They were switched off in release builds but their code and texts were still inside the app bundle, which App Review read as features hidden from review. The code is kept on the `archive/friends-and-devtools` branch. | `state/store.jsx`, `App.jsx`, `TabBar.jsx`, `FocusView.jsx`, `SettingsView.jsx`, `i18n/` |
 | **Release check.** `npm run build` now fails if the bundle contains developer-tool or friends/invite code or texts. | `scripts/check-release.mjs` |
+| **5-minute sessions.** The shortest session is now 5 minutes (new 5m preset). Sessions up to 15 min pay 1 coin per minute; the bonus curve above 15 min is unchanged. | `lib/economy.js` |
+| **Era preview.** Tap a locked era on the Journey tab to see its room and every item it adds to the Shop. | `views/JourneyView.jsx` |
+| **New screenshots** from 1.8.1 at App Store size (1290×2796). | `docs/screenshots/` |
 | **Privacy manifest** (`PrivacyInfo.xcprivacy`) for the app and the shield extension: no tracking, no data collected, UserDefaults for the app's own / App Group data. | `ios/App/App/`, `ios/App/MarmoShield/` |
 
 Release steps, App Store Connect answers and the security/legal review: [`APP_STORE_CHECKLIST.md`](APP_STORE_CHECKLIST.md).

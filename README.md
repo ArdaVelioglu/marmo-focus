@@ -11,7 +11,7 @@
 
 ## ✨ Features
 
-- **Focus sessions with a companion:** Pick 15 minutes to 3 hours. Your marmoset, Mango, falls asleep while you focus and wakes up happy when the session ends.
+- **Focus sessions with a companion:** Pick 5 minutes to 3 hours. Your marmoset, Mango, falls asleep while you focus and wakes up happy when the session ends.
 - **Focus Guard:** Leave the app mid-session and Mango wakes up grumpy; that session pays no bonus. Locking your phone is fine.
 - **Banana Coins & eight eras:** Longer sessions earn more coins. Decorate rooms from the Stone Age's Dino Valley to a post-apocalyptic bunker, and dress Mango in 16 outfits.
 - **Streaks, notes & statistics:** Daily bonus, streak rewards and streak freezes, a short note after each session, weekly charts and a focus calendar.

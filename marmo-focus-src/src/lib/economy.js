@@ -2,21 +2,23 @@ import { now } from './clock';
 import { locale, t } from '../i18n';
 
 // Focus economy: longer sessions pay more per minute, up to a ×5.0 cap.
-//   t             = (m − 15) / (180 − 15)          → 0 at 15 min, 1 at 3 h
+// Sessions can be 5 min to 3 h; the bonus starts growing after 15 min (BONUS_FROM).
+//   t             = (m − 15) / (180 − 15)          → 0 at ≤15 min, 1 at 3 h
 //   multiplier(m) = 1 + (MAX_MULT − 1) · t^CURVE    → smooth, gently accelerating, never above ×5.0
 //   coins(m)      = round(m × min(MAX_MULT, multiplier(m) × streak bonus))
 //
-//   15m ×1.00 → 15 · 25m ×1.12 → 28 · 1h ×1.79 → 107 · 2h ×3.27 → 393 · 3h ×5.00 → 900
-export const MIN_MINUTES = 15;
+//   5m ×1.00 → 5 · 15m ×1.00 → 15 · 25m ×1.12 → 28 · 1h ×1.79 → 107 · 2h ×3.27 → 393 · 3h ×5.00 → 900
+export const MIN_MINUTES = 5;
+const BONUS_FROM = 15;         // sessions up to this length pay 1 coin per minute
 export const MAX_MINUTES = 180;
 export const STEP_MINUTES = 5;
-export const PRESETS = [15, 25, 45, 60, 90, 120];
+export const PRESETS = [5, 15, 25, 45, 60, 90];
 
 export const MAX_MULT = 5.0;   // hard cap on the total bonus, streak included
 const CURVE = 1.25;            // 1 = linear; higher = more of the bonus saved for long sessions
 
 export const multiplier = (m) => {
-  const t = Math.min(1, Math.max(0, (m - MIN_MINUTES) / (MAX_MINUTES - MIN_MINUTES)));
+  const t = Math.min(1, Math.max(0, (m - BONUS_FROM) / (MAX_MINUTES - BONUS_FROM)));
   return Math.min(MAX_MULT, 1 + (MAX_MULT - 1) * t ** CURVE);
 };
 /** Session multiplier × streak bonus, never above the cap. */
@@ -28,7 +30,7 @@ export const breakFor = (m) => Math.min(30, Math.max(5, Math.round(m / 5)));
 
 export const presetLabel = (m) => (m < 60 ? t('{m}m', { m }) : t('{h}h', { h: m % 60 ? (m / 60).toLocaleString(locale(), { maximumFractionDigits: 1 }) : m / 60 }));
 
-/** Compact form for the preset chips: 15m · 1.5h (minutes localized, hours as h everywhere). */
+/** Compact form for the preset chips: 5m · 1.5h (minutes localized, hours as h everywhere). */
 export const presetShort = (m) => (m < 60 ? t('{m}m|short', { m }) : `${(m / 60).toLocaleString(locale(), { maximumFractionDigits: 1 })}h`);
 
 export const fmtMultiplier = (m, streakMult = 1) => `×${totalMultiplier(m, streakMult).toFixed(2)}`;

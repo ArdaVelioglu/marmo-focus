@@ -58,6 +58,9 @@ export const UI = [
   ["Save Name", "名前を保存", "Guardar nombre", "Salva nome"],
   ["{era} room", "{era}の部屋", "Habitación de {era}", "Stanza: {era}"],
 
+  ["Preview", "プレビュー", "Vista previa", "Anteprima"],
+  ["Unlocks at {h}h focus · tap to preview", "集中{h}時間で解放 · タップでプレビュー", "Se desbloquea con {h} h de enfoque · toca para ver", "Si sblocca a {h} h di focus · tocca per l’anteprima"],
+  ["Unlocks after {h} hours of total focus ({time} to go). Then all of its items can be bought with Banana Coins.", "合計{h}時間の集中で解放されます(あと{time})。解放後、すべてのアイテムをバナナコインで買えます。", "Se desbloquea tras {h} horas de enfoque en total (faltan {time}). Después, todos sus objetos se pueden comprar con Banana Coins.", "Si sblocca dopo {h} ore di focus in totale (mancano {time}). Poi tutti i suoi oggetti si possono comprare con le Banana Coin."],
   // statistics
   ["Statistics", "統計", "Estadísticas", "Statistiche"],
   ["Last 7 days", "過去7日間", "Últimos 7 días", "Ultimi 7 giorni"],
@@ -195,6 +198,8 @@ export const UI = [
   ["Your device clock changed", "デバイスの時計が変更されました", "El reloj de tu dispositivo cambió", "L’orologio del dispositivo è cambiato"],
   ["Coins, streaks and the daily bonus are paused until {when}. Set the clock to the correct time and they come back on their own.", "コイン・連続記録・デイリーボーナスは{when}まで一時停止中です。時計を正しい時刻に戻すと自動で再開します。", "Las monedas, las rachas y la bonificación diaria están en pausa hasta el {when}. Pon el reloj en la hora correcta y volverán solas.", "Monete, serie e bonus giornaliero sono in pausa fino a {when}. Imposta l’ora corretta e torneranno da soli."],
 
+  ["{n} item", "{n}個のアイテム", "{n} objeto", "{n} oggetto"],
+  ["{n} items", "{n}個のアイテム", "{n} objetos", "{n} oggetti"],
   // statistics
   ["Today", "今日", "Hoy", "Oggi"],
   ["Total", "合計", "Total", "Totale"],
@@ -214,7 +219,6 @@ export const UI = [
   ["You are here", "現在地", "Estás aquí", "Sei qui"],
   ["Home era", "ホームの時代", "Era de origen", "Era di casa"],
   ["Tap to visit", "タップして訪問", "Toca para visitar", "Tocca per visitare"],
-  ["Unlocks at {h}h focus", "集中{h}時間で解放", "Se desbloquea con {h} h de concentración", "Si sblocca con {h} h di concentrazione"],
 
   // settings
   ["Settings", "設定", "Ajustes", "Impostazioni"],
