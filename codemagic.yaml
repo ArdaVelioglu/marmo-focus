@@ -38,7 +38,18 @@ workflows:
           KEY_FILE="$(mktemp)"
           printf '%s\n' "$CERTIFICATE_PRIVATE_KEY" | tr -d '\r' > "$KEY_FILE"
           chmod 600 "$KEY_FILE"
-          echo "Key header: $(head -1 "$KEY_FILE")"
+          if ! grep -q -- '-----BEGIN' "$KEY_FILE"; then
+            # Only the base64 body was pasted (BEGIN/END lines missing): rebuild the PEM around it.
+            BODY="$(tr -d ' \t\n' < "$KEY_FILE")"
+            case "$BODY" in
+              MIIEv*|MIIEu*|MIIEw*|MIIEt*) TYPE="PRIVATE KEY" ;;   # PKCS#8
+              *) TYPE="RSA PRIVATE KEY" ;;                          # PKCS#1
+            esac
+            case "$BODY" in MIIE?QIBADAN*) TYPE="PRIVATE KEY" ;; MIIE?wIBAAK*|MIIE?AIBAAK*) TYPE="RSA PRIVATE KEY" ;; esac
+            { echo "-----BEGIN $TYPE-----"; printf '%s' "$BODY" | fold -w 64; echo; echo "-----END $TYPE-----"; } > "$KEY_FILE"
+            echo "BEGIN/END lines were missing; rebuilt them ($TYPE)."
+          fi
+          echo "Key format: $(grep -m1 -- '-----BEGIN' "$KEY_FILE")"
           # Accepts PEM with no passphrase, PEM whose passphrase is literally "" (PowerShell quirk),
           # and OpenSSH-format keys.
           if openssl rsa -in "$KEY_FILE" -passin pass: -traditional -out "$KEY_FILE.pem" 2>/dev/null \
@@ -50,7 +61,7 @@ workflows:
             exit 1
           fi
           openssl rsa -in "$KEY_FILE" -check -noout
-          echo "Key header after cleanup: $(head -1 "$KEY_FILE")"
+          echo "Key format after cleanup: $(grep -m1 -- '-----BEGIN' "$KEY_FILE")"
 
           keychain initialize
           for id in com.ardavelioglu.marmofocus com.ardavelioglu.marmofocus.monitor com.ardavelioglu.marmofocus.shield; do
