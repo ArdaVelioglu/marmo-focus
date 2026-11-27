@@ -32,10 +32,42 @@ workflows:
           npm run ios:sync
       - name: Set up code signing (App, MarmoMonitor, MarmoShield)
         script: |
+          set -e
+          # Clean up the private key pasted into Codemagic: drop Windows line endings and
+          # convert it to unencrypted PEM. The key itself is never printed.
+          KEY_FILE="$(mktemp)"
+          printf '%s\n' "$CERTIFICATE_PRIVATE_KEY" | tr -d '\r' > "$KEY_FILE"
+          chmod 600 "$KEY_FILE"
+          if ! grep -q -- '-----BEGIN' "$KEY_FILE"; then
+            # Only the base64 body was pasted (BEGIN/END lines missing): rebuild the PEM around it.
+            BODY="$(tr -d ' \t\n' < "$KEY_FILE")"
+            case "$BODY" in
+              MIIEv*|MIIEu*|MIIEw*|MIIEt*) TYPE="PRIVATE KEY" ;;   # PKCS#8
+              *) TYPE="RSA PRIVATE KEY" ;;                          # PKCS#1
+            esac
+            case "$BODY" in MIIE?QIBADAN*) TYPE="PRIVATE KEY" ;; MIIE?wIBAAK*|MIIE?AIBAAK*) TYPE="RSA PRIVATE KEY" ;; esac
+            { echo "-----BEGIN $TYPE-----"; printf '%s' "$BODY" | fold -w 64; echo; echo "-----END $TYPE-----"; } > "$KEY_FILE"
+            echo "BEGIN/END lines were missing; rebuilt them ($TYPE)."
+          fi
+          echo "Key format: $(grep -m1 -- '-----BEGIN' "$KEY_FILE")"
+          # Accepts PEM with no passphrase, PEM whose passphrase is literally "" (PowerShell quirk),
+          # and OpenSSH-format keys.
+          if openssl rsa -in "$KEY_FILE" -passin pass: -traditional -out "$KEY_FILE.pem" 2>/dev/null \
+             || openssl rsa -in "$KEY_FILE" -passin 'pass:""' -traditional -out "$KEY_FILE.pem" 2>/dev/null; then
+            mv "$KEY_FILE.pem" "$KEY_FILE"
+          elif ! ssh-keygen -p -m PEM -P "" -N "" -f "$KEY_FILE" >/dev/null 2>&1 \
+             && ! ssh-keygen -p -m PEM -P '""' -N "" -f "$KEY_FILE" >/dev/null 2>&1; then
+            echo "CERTIFICATE_PRIVATE_KEY is not a usable RSA private key (wrong text or protected by a passphrase)."
+            exit 1
+          fi
+          openssl rsa -in "$KEY_FILE" -check -noout
+          echo "Key format after cleanup: $(grep -m1 -- '-----BEGIN' "$KEY_FILE")"
+
           keychain initialize
           for id in com.ardavelioglu.marmofocus com.ardavelioglu.marmofocus.monitor com.ardavelioglu.marmofocus.shield; do
-            app-store-connect fetch-signing-files "$id" --type IOS_APP_STORE --create
+            app-store-connect fetch-signing-files "$id" --type IOS_APP_STORE --create --certificate-key "@file:$KEY_FILE"
           done
+          rm -f "$KEY_FILE"
           keychain add-certificates
           xcode-project use-profiles --project "$XCODE_PROJECT"
       - name: Build the .ipa
